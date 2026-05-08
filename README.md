@@ -1,4 +1,5 @@
-# ⌨️ TypeRush — Teste de Digitação
+<<<<<<< HEAD
+# ⌨️ Digita — Teste de Digitação
 
 Projeto completo de teste de digitação com frontend moderno (HTML/CSS/JS) e backend em Python puro (sem dependências externas).
 
@@ -75,3 +76,5 @@ Acesse: **http://localhost:8080**
 - **Banco**: SQLite (arquivo local `results.db`)
 
 > Sem dependências externas! Apenas Python 3.7+ necessário.
+=======
+
