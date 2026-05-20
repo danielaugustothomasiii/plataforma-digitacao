@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TypeRush — Servidor Python
+Digita — Servidor Python
 Serve o frontend e fornece uma API REST para salvar/consultar resultados.
 
 Uso:
@@ -118,7 +118,7 @@ def get_stats() -> dict:
 
 
 # ── HTTP Handler ─────────────────────────────────
-class TypeRushHandler(http.server.SimpleHTTPRequestHandler):
+class DigitaHandler(http.server.SimpleHTTPRequestHandler):
     """Handler customizado: serve arquivos estáticos + API /api/*"""
 
     def __init__(self, *args, **kwargs):
@@ -194,10 +194,10 @@ class TypeRushHandler(http.server.SimpleHTTPRequestHandler):
 # ── Main ─────────────────────────────────────────
 def main():
     init_db()
-    server = http.server.ThreadingHTTPServer(("0.0.0.0", PORT), TypeRushHandler)
+    server = http.server.ThreadingHTTPServer(("0.0.0.0", PORT), DigitaHandler)
     print(f"""
 ╔══════════════════════════════════════╗
-║        TypeRush — Servidor           ║
+║        Digita — Servidor           ║
 ╠══════════════════════════════════════╣
 ║  🌐  http://localhost:{PORT}           ║
 ║                                      ║
