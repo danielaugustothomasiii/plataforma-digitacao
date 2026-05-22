@@ -53,6 +53,7 @@ const state = {
   errors: 0, totalTyped: 0, correctChars: 0,
   wpmHistory: [], wpmInterval: null,
   focused: false, customMode: false,
+  lastTextIndex: -1,
 };
 
 // ── DOM Refs ───────────────────────────────────
@@ -132,22 +133,14 @@ function formatTime(seconds) {
   return s === 0 ? m + 'min' : m + 'min ' + s + 's';
 }
 
-function generateWords() {
-  const shuffled = [...TEXTOS].sort(() => Math.random() - 0.5);
-  // Decide quantos parágrafos usar baseado nos segundos totais
-  let count = 1;
-  if (!state.customMode) {
-    if (state.mode <= 15)        count = 1;
-    else if (state.mode <= 60)   count = state.mode <= 30 ? 2 : 3;
-    else if (state.mode <= 600)  count = 8;   // até 10min
-    else if (state.mode <= 1200) count = 14;  // até 20min
-    else                          count = 20;  // 30min+
-  }
-  // Garante textos suficientes repetindo o array se necessário
-  let pool = [...TEXTOS];
-  while (pool.length < count) pool = [...pool, ...TEXTOS];
-  const picked = pool.sort(() => Math.random() - 0.5).slice(0, count);
-  let texto = state.customMode ? shuffled[0] : picked.join(' ');
+function generateWords(excludeIndex) {
+  // Sempre usa 1 parágrafo — se o usuário terminar antes do tempo,
+  // um novo texto é carregado automaticamente (ver handleNewTextNeeded)
+  let pool = TEXTOS.map((t, i) => ({t, i}));
+  if (excludeIndex !== undefined) pool = pool.filter(x => x.i !== excludeIndex);
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  state.lastTextIndex = picked.i;
+  let texto = picked.t;
 
   texto = texto
     .replace(/[.,!?;:""«»]/g, '')
@@ -237,7 +230,11 @@ function handleInput(e) {
     state.wordIndex++;
     state.charIndex = 0;
     typingInput.value = '';
-    if (state.customMode && state.wordIndex >= state.words.length) { finishTest(); return; }
+    if (state.wordIndex >= state.words.length) {
+      if (state.customMode) { finishTest(); return; }
+      // Timer still running — load next text seamlessly
+      handleNewTextNeeded(); return;
+    }
     updateCursor();
     updateStats(true);
     return;
@@ -407,10 +404,10 @@ function drawChart() {
   if (!data.length) return;
 
   const isLight   = document.documentElement.getAttribute('data-theme') === 'light';
-  const accent    = isLight ? '#1a7fd4' : '#25a2f5';
+  const accent    = isLight ? '#c0392b' : '#e05040';
   const gridColor = isLight ? 'rgba(0,0,0,0.08)'     : 'rgba(255,255,255,0.07)';
   const textColor = isLight ? '#4a5a78'               : '#8880b0';
-  const fillTop   = isLight ? 'rgba(26,127,212,0.18)' : 'rgba(37,162,245,0.22)';
+  const fillTop   = isLight ? 'rgba(192,57,43,0.16)' : 'rgba(224,80,64,0.20)';
 
   ctx.clearRect(0, 0, W, H);
   const maxVal = Math.max(...data, 1);
@@ -461,6 +458,16 @@ function drawChart() {
   for (let i = 0; i < data.length; i += step) {
     ctx.fillText(i + 's', pad.l + (i / (data.length - 1)) * cW, H - 4);
   }
+}
+
+// ── Carrega próximo texto sem parar o timer ───────
+function handleNewTextNeeded() {
+  state.words = generateWords(state.lastTextIndex);
+  state.wordIndex = 0;
+  state.charIndex = 0;
+  typingInput.value = '';
+  renderWords();
+  updateCursor();
 }
 
 // ── Focus ──────────────────────────────────────
