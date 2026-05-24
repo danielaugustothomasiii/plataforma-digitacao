@@ -531,12 +531,45 @@ function applyTheme(theme) {
   localStorage.setItem('digita-theme', theme);
 }
 
-$('themeToggle').addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  const next = current === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  showToast(next === 'light' ? 'Tema claro' : 'Tema escuro');
+const btn = $('themeToggle');
+const img = btn.querySelector('img');
+
+let currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+// 👉 Clique (troca tema)
+btn.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+  applyTheme(currentTheme);
+  showToast(currentTheme === 'light' ? 'Tema claro' : 'Tema escuro');
+
+  updateIcon();
 });
+
+// 👉 Hover (mostra o PRÓXIMO tema)
+btn.addEventListener('mouseenter', () => {
+  if (currentTheme === 'dark') {
+    img.src = '4808961-200.png'; // ☀️ vai mudar pra light
+  } else {
+    img.src = '6559203.png'; // 🌙 vai mudar pra dark
+  }
+});
+
+// 👉 Sai do hover (volta pro tema atual)
+btn.addEventListener('mouseleave', () => {
+  updateIcon();
+});
+
+// 👉 Ícone do tema atual
+function updateIcon() {
+  img.src = currentTheme === 'light'
+    ? '4808961-200.png'  // ☀️
+    : '6559203.png';     // 🌙
+}
+
+// 👉 inicia correto
+updateIcon();
+ 
 
 // ── Toast ──────────────────────────────────────
 function showToast(msg) {
@@ -565,5 +598,56 @@ async function saveResultToAPI(result) {
 const savedTheme = localStorage.getItem('digita-theme') || 'dark';
 applyTheme(savedTheme);
 checkAPI();
-init(true);
-setTimeout(focusInput, 300);
+
+// ── Tela de Boas-Vindas ────────────────────────
+(function initWelcome() {
+  const screen   = document.getElementById('welcomeScreen');
+  const input    = document.getElementById('welcomeName');
+  const btn      = document.getElementById('welcomeBtn');
+  const hUser    = document.getElementById('headerUser');
+  const hAvatar  = document.getElementById('headerUserAvatar');
+  const hName    = document.getElementById('headerUserName');
+
+  // Se já passou pela tela antes nesta sessão, pula
+  const savedName = sessionStorage.getItem('digita-user');
+  if (savedName) {
+    screen.classList.add('hidden');
+    showUserBadge(savedName);
+    init(true);
+    setTimeout(focusInput, 300);
+    return;
+  }
+
+  // Habilita botão somente quando há texto
+  input.addEventListener('input', () => {
+    const ok = input.value.trim().length > 0;
+    btn.disabled = !ok;
+  });
+
+  function enterApp() {
+    const name = input.value.trim();
+    if (!name) return;
+    sessionStorage.setItem('digita-user', name);
+    screen.classList.add('hiding');
+    setTimeout(() => {
+      screen.classList.add('hidden');
+      showUserBadge(name);
+      init(true);
+      setTimeout(focusInput, 300);
+    }, 600);
+  }
+
+  btn.addEventListener('click', enterApp);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+
+  // Foca o input automaticamente
+  setTimeout(() => input.focus(), 400);
+
+  function showUserBadge(name) {
+    hAvatar.textContent = name.charAt(0).toUpperCase();
+    hName.textContent   = name;
+    hUser.classList.add('visible');
+  }
+})();
