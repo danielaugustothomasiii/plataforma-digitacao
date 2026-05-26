@@ -83,14 +83,18 @@ function showPage(name) {
   Object.entries(pages).forEach(([key, el]) => {
     el.classList.toggle('page-hidden', key !== name);
   });
+
   document.querySelectorAll('.nav-link').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.page === name);
   });
-  // Seletor de modo só aparece na home
+
   modeBtnsNav.style.display = name === 'home' ? '' : 'none';
-  // Fecha modal se estiver aberto ao trocar de página
   modalOverlay.classList.remove('active');
+
+  // ✅ CONTROLE DO SOM
+  isTypingPage = (name === 'home');
 }
+
 
 document.querySelectorAll('.nav-link').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -546,6 +550,36 @@ btn.addEventListener('click', () => {
   updateIcon();
 });
 
+ // 🔊 BOTÃO DE SOM
+const soundBtn = $('soundToggle');
+
+// áudio
+const keySound = new Audio('lightningbulb-spacebar-click-keyboard-199448.mp3');
+keySound.volume = 0.5;
+
+// estado
+let soundOn = true;
+let isTypingPage = true;
+
+// clique botão
+soundBtn.addEventListener('click', () => {
+  soundBtn.classList.add('active');
+
+  setTimeout(() => {
+    soundBtn.classList.remove('active');
+  }, 200);
+
+  soundOn = !soundOn;
+  soundBtn.classList.toggle('on', soundOn);
+});
+
+// ⌨️ SOM GLOBAL (FORA DO CLICK)
+document.addEventListener('keydown', () => {
+  if (!soundOn || !isTypingPage) return;
+
+  keySound.currentTime = 0;
+  keySound.play();
+});
 // 👉 Hover (mostra o PRÓXIMO tema)
 btn.addEventListener('mouseenter', () => {
   if (currentTheme === 'dark') {
