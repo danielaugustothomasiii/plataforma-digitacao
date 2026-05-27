@@ -347,31 +347,14 @@ function countCorrect(typed, word) {
 function startTest() {
   state.started = true;
   state.startTime = Date.now();
-
   clickHint.style.opacity = '0';
-
-  // 🔓 garante que pode digitar ao iniciar
-  typingInput.disabled = false;
-
   if (!state.customMode) {
     state.timer = setInterval(() => {
       state.timeLeft--;
-
-      // 🛑 evita ficar negativo
-      if (state.timeLeft <= 0) {
-        state.timeLeft = 0;
-        timerDisplay.textContent = formatTime(state.timeLeft);
-
-        finishTest();           // finaliza
-        typingInput.disabled = true; // 🚫 bloqueia digitação
-        return;
-      }
-
       timerDisplay.textContent = formatTime(state.timeLeft);
+      if (state.timeLeft <= 0) finishTest();
     }, 1000);
   }
-}
-{
   state.wpmInterval = setInterval(() => {
     const elapsed = (Date.now() - state.startTime) / 60000;
     state.wpmHistory.push(elapsed > 0 ? Math.round((state.correctChars / 5) / elapsed) : 0);
@@ -382,7 +365,6 @@ function finishTest() {
   clearInterval(state.timer);
   clearInterval(state.wpmInterval);
   state.finished = true;
-  typingInput.disabled = true;
   typingInput.blur();
   typingBox.classList.remove('focused');
   showResults();
