@@ -50,7 +50,12 @@ const state = {
   wordIndex: 0, charIndex: 0,
   started: false, finished: false,
   startTime: null, timer: null, timeLeft: 15,
-  errors: 0, totalTyped: 0, correctChars: 0,
+  // ── contadores ──
+  keystrokes: 0,   // toda tecla de letra/espaço pressionada (não backspace)
+  keyErrors: 0,    // teclas erradas acumuladas (inclui erros em palavras já confirmadas)
+  liveErrors: 0,   // erros visíveis agora na palavra em digitação (muda a cada tecla)
+  correctChars: 0, // chars corretos confirmados (para WPM)
+  totalTyped: 0,   // chars totais confirmados (legacy, mantido para API)
   wpmHistory: [], wpmInterval: null,
   focused: false, customMode: false,
   lastTextIndex: -1,
@@ -117,7 +122,7 @@ function init(newText = true) {
   Object.assign(state, {
     input: '', wordIndex: 0, charIndex: 0,
     started: false, finished: false, startTime: null,
-    errors: 0, totalTyped: 0, correctChars: 0,
+    keystrokes: 0, keyErrors: 0, liveErrors: 0, totalTyped: 0, correctChars: 0,
     wpmHistory: [],
     timeLeft: state.customMode ? Infinity : state.mode,
   });
@@ -217,9 +222,11 @@ function handleInput(e) {
   if (!currentWord) return;
   if (!state.started && val.trim().length > 0) startTest();
 
+  // ── ESPAÇO: só avança se a palavra estiver 100% correta ──
   if (val.endsWith(' ')) {
     const trimmed = val.trim();
     if (hasError(trimmed, currentWord)) {
+      // bloqueia: remove o espaço, mantém o que tinha
       typingInput.value = trimmed;
       shakeBox();
       state.charIndex = trimmed.length;
@@ -227,16 +234,17 @@ function handleInput(e) {
       updateCursor();
       return;
     }
+    // Palavra correta: confirmar
+    state.keystrokes += trimmed.length + 1;
     markWord(state.wordIndex, trimmed);
-    if (trimmed !== currentWord) state.errors++;
     state.totalTyped += trimmed.length + 1;
     state.correctChars += countCorrect(trimmed, currentWord) + 1;
+    state.liveErrors = 0;
     state.wordIndex++;
     state.charIndex = 0;
     typingInput.value = '';
     if (state.wordIndex >= state.words.length) {
       if (state.customMode) { finishTest(); return; }
-      // Timer still running — load next text seamlessly
       handleNewTextNeeded(); return;
     }
     updateCursor();
@@ -244,14 +252,26 @@ function handleInput(e) {
     return;
   }
 
-  if (val.length > state.charIndex) {
-    const prevVal = val.slice(0, val.length - 1);
-    if (prevVal.length > 0 && hasError(prevVal, currentWord)) {
-      typingInput.value = prevVal;
-      shakeBox();
-      return;
+  // ── DIGITAÇÃO NORMAL (letra a letra) ──
+  const prev = state.charIndex;
+  const typed = val.length;
+
+  // Se está adicionando uma letra (não apagando), conta keystroke
+  if (typed > prev) {
+    state.keystrokes++;
+    // Verifica se a letra recém digitada está errada
+    const ci = typed - 1;
+    if (val[ci] !== (currentWord[ci] || '')) {
+      state.keyErrors++;
     }
   }
+
+  // Recalcula erros visiveis na palavra atual (para exibição em tempo real)
+  let live = 0;
+  for (let i = 0; i < val.length; i++) {
+    if (val[i] !== (currentWord[i] || '')) live++;
+  }
+  state.liveErrors = live;
 
   state.charIndex = val.length;
   markLive(state.wordIndex, val);
@@ -353,12 +373,27 @@ function finishTest() {
 function updateStats(live) {
   const elapsed = state.startTime ? (Date.now() - state.startTime) / 60000 : 0;
   const wpm = elapsed > 0 ? Math.round((state.correctChars / 5) / elapsed) : 0;
-  const total = state.totalTyped + (typingInput.value?.length || 0);
-  const acc = total > 0 ? Math.round(((total - state.errors) / total) * 100) : 100;
+
+  // Precisão: usa keystrokes confirmados + chars já digitados na palavra atual
+  const currentVal = typingInput.value || '';
+  const currentWord = state.words[state.wordIndex] || '';
+  let currentKs = currentVal.length;
+  let currentKe = 0;
+  for (let i = 0; i < currentVal.length; i++) {
+    if (currentVal[i] !== (currentWord[i] || '')) currentKe++;
+  }
+  const totalKs = state.keystrokes + currentKs;
+  const totalKe = state.keyErrors + currentKe;
+  const acc = totalKs > 0 ? Math.round(((totalKs - totalKe) / totalKs) * 100) : 100;
+
+  // Erros visíveis = erros confirmados (chars errados em palavras já enviadas)
+  //                + erros live na palavra atual
+  const totalErrors = state.keyErrors + state.liveErrors;
+
   if (live) {
     wpmDisplay.textContent = wpm;
     accDisplay.textContent = acc + '%';
-    errDisplay.textContent = state.errors;
+    errDisplay.textContent = totalErrors;
   } else {
     wpmDisplay.textContent = '—';
     accDisplay.textContent = '—';
@@ -370,13 +405,14 @@ function updateStats(live) {
 function showResults() {
   const elapsed = (Date.now() - state.startTime) / 1000;
   const wpm = elapsed > 0 ? Math.round((state.correctChars / 5) / (elapsed / 60)) : 0;
-  const total = state.totalTyped;
-  const acc = total > 0 ? Math.round(((total - state.errors) / total) * 100) : 100;
+  const ks = state.keystrokes;
+  const ke = state.keyErrors;
+  const acc = ks > 0 ? Math.round(((ks - ke) / ks) * 100) : 100;
 
   $('finalWpm').textContent = wpm;
   $('finalAcc').textContent = acc + '%';
   $('finalTime').textContent = Math.round(elapsed) + 's';
-  $('finalErrors').textContent = state.errors;
+  $('finalErrors').textContent = ke;   // total de chars errados
   $('finalChars').textContent = state.correctChars;
   $('finalWords').textContent = state.wordIndex;
 
@@ -390,7 +426,8 @@ function showResults() {
 
   drawChart();
   modalOverlay.classList.add('active');
-  saveResultToAPI({ wpm, accuracy: acc, errors: state.errors,
+  updateProfileStats(wpm, acc);
+  saveResultToAPI({ wpm, accuracy: acc, errors: ke,
     chars: state.correctChars, words: state.wordIndex,
     duration: Math.round(elapsed), mode: state.customMode ? 'custom' : state.mode + 's' });
 }
@@ -535,21 +572,12 @@ function applyTheme(theme) {
   localStorage.setItem('digita-theme', theme);
 }
 
-const btn = $('themeToggle');
-const img = btn.querySelector('img');
-
-let currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-
-// 👉 Clique (troca tema)
-btn.addEventListener('click', () => {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-  applyTheme(currentTheme);
-  showToast(currentTheme === 'light' ? 'Tema claro' : 'Tema escuro');
-
-  updateIcon();
+$('themeToggle').addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  showToast(next === 'light' ? 'Tema claro' : 'Tema escuro');
 });
-
  // 🔊 BOTÃO DE SOM
 const soundBtn = $('soundToggle');
 
@@ -579,32 +607,8 @@ document.addEventListener('keydown', () => {
 
   keySound.currentTime = 0;
   keySound.play();
+  
 });
-// 👉 Hover (mostra o PRÓXIMO tema)
-btn.addEventListener('mouseenter', () => {
-  if (currentTheme === 'dark') {
-    img.src = '4808961-200.png'; // ☀️ vai mudar pra light
-  } else {
-    img.src = '6559203.png'; // 🌙 vai mudar pra dark
-  }
-});
-
-// 👉 Sai do hover (volta pro tema atual)
-btn.addEventListener('mouseleave', () => {
-  updateIcon();
-});
-
-// 👉 Ícone do tema atual
-function updateIcon() {
-  img.src = currentTheme === 'light'
-    ? '4808961-200.png'  // ☀️
-    : '6559203.png';     // 🌙
-}
-
-// 👉 inicia correto
-updateIcon();
- 
-
 // ── Toast ──────────────────────────────────────
 function showToast(msg) {
   toast.textContent = msg;
@@ -626,6 +630,127 @@ async function saveResultToAPI(result) {
   if (!apiAvailable) return;
   try { await fetch(`${API_BASE}/api/results`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(result) }); }
   catch {}
+}
+
+
+// ══════════════════════════════════════════════
+// PERFIL DO USUÁRIO
+// ══════════════════════════════════════════════
+const profileSession = {
+  bestWpm: 0,
+  bestAcc: 0,
+  tests: 0,
+};
+
+function openProfile() {
+  const overlay = document.getElementById('profileOverlay');
+  const name = sessionStorage.getItem('digita-user') || '—';
+
+  // Preenche nome
+  document.getElementById('profileNameDisplay').textContent = name;
+  document.getElementById('profileNameInput').value = name;
+
+  // Avatar (foto ou inicial)
+  _renderProfileAvatar();
+
+  // Stats da sessão
+  document.getElementById('profBestWpm').textContent = profileSession.bestWpm || '—';
+  document.getElementById('profBestAcc').textContent = profileSession.bestAcc ? profileSession.bestAcc + '%' : '—';
+  document.getElementById('profTests').textContent = profileSession.tests;
+
+  overlay.classList.add('active');
+}
+
+function closeProfile(e) {
+  if (e.target === document.getElementById('profileOverlay'))
+    document.getElementById('profileOverlay').classList.remove('active');
+}
+function closeProfileBtn() {
+  document.getElementById('profileOverlay').classList.remove('active');
+}
+
+function toggleEditName() {
+  const edit = document.getElementById('profileNameEdit');
+  const display = document.getElementById('profileNameDisplay').parentElement;
+  const isOpen = edit.style.display !== 'none';
+  edit.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) {
+    const input = document.getElementById('profileNameInput');
+    input.focus();
+    input.select();
+  }
+}
+
+function saveName() {
+  const input = document.getElementById('profileNameInput');
+  const name = input.value.trim();
+  if (!name) return;
+  sessionStorage.setItem('digita-user', name);
+  document.getElementById('profileNameDisplay').textContent = name;
+  // atualiza badge no header
+  document.getElementById('headerUserName').textContent = name;
+  document.getElementById('headerUserAvatar').textContent = name.charAt(0).toUpperCase();
+  _renderProfileAvatar();
+  document.getElementById('profileNameEdit').style.display = 'none';
+  showToast('Nome atualizado ✓');
+}
+
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    sessionStorage.setItem('digita-photo', dataUrl);
+    _renderProfileAvatar();
+    _renderHeaderAvatar();
+    showToast('Foto atualizada ✓');
+  };
+  reader.readAsDataURL(file);
+}
+
+function _renderProfileAvatar() {
+  const avatar = document.getElementById('profileAvatar');
+  const photo = sessionStorage.getItem('digita-photo');
+  const name = sessionStorage.getItem('digita-user') || '?';
+  if (photo) {
+    avatar.innerHTML = '<img src="' + photo + '" alt="foto de perfil" />';
+  } else {
+    avatar.textContent = name.charAt(0).toUpperCase();
+  }
+}
+
+function _renderHeaderAvatar() {
+  const avatar = document.getElementById('headerUserAvatar');
+  const photo = sessionStorage.getItem('digita-photo');
+  const name = sessionStorage.getItem('digita-user') || '?';
+  if (photo) {
+    avatar.innerHTML = '<img src="' + photo + '" alt="foto" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
+  } else {
+    avatar.textContent = name.charAt(0).toUpperCase();
+  }
+}
+
+function logoutProfile() {
+  sessionStorage.removeItem('digita-user');
+  sessionStorage.removeItem('digita-photo');
+  document.getElementById('profileOverlay').classList.remove('active');
+  // Recarrega para mostrar tela de boas-vindas
+  location.reload();
+}
+
+// Fechar com Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('profileOverlay').classList.remove('active');
+  }
+});
+
+// Atualizar stats após cada teste
+function updateProfileStats(wpm, acc) {
+  profileSession.tests++;
+  if (wpm > profileSession.bestWpm) profileSession.bestWpm = wpm;
+  if (acc > profileSession.bestAcc) profileSession.bestAcc = acc;
 }
 
 // ── Boot ───────────────────────────────────────
@@ -680,8 +805,9 @@ checkAPI();
   setTimeout(() => input.focus(), 400);
 
   function showUserBadge(name) {
-    hAvatar.textContent = name.charAt(0).toUpperCase();
-    hName.textContent   = name;
+    hName.textContent = name;
     hUser.classList.add('visible');
+    // Renderiza foto se existir, senão inicial
+    _renderHeaderAvatar();
   }
 })();
