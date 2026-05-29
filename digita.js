@@ -537,17 +537,17 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Modos ──────────────────────────────────────
-document.querySelectorAll('.mode-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const mode = btn.dataset.mode;
-    state.customMode = mode === 'custom';
-    state.mode = state.customMode ? null : parseInt(mode);
-    // timeLeft in seconds
-    state.timeLeft = state.customMode ? Infinity : state.mode;
-    init(true); focusInput();
-  });
+const modeSelect = document.getElementById("modeSelect");
+
+modeSelect.addEventListener("change", () => {
+  const mode = modeSelect.value;
+
+  state.customMode = mode === "custom";
+  state.mode = state.customMode ? null : parseInt(mode);
+  state.timeLeft = state.customMode ? Infinity : state.mode;
+
+  init(true);
+  focusInput();
 });
 
 // ── Botões ─────────────────────────────────────
@@ -582,12 +582,12 @@ $('themeToggle').addEventListener('click', () => {
 const soundBtn = $('soundToggle');
 
 // áudio
-const keySound = new Audio('lightningbulb-spacebar-click-keyboard-199448.mp3');
+const keySound = new Audio('Som/lightningbulb-spacebar-click-keyboard-199448.mp3');
 keySound.volume = 0.5;
 
 // estado
 let soundOn = true;
-let isTypingPage = true;
+let isTypingPage = false; // começa desligado fora da página de digitação
 
 // clique botão
 soundBtn.addEventListener('click', () => {
@@ -599,15 +599,41 @@ soundBtn.addEventListener('click', () => {
 
   soundOn = !soundOn;
   soundBtn.classList.toggle('on', soundOn);
+
+  // (opcional) salva preferência
+  localStorage.setItem('sound', soundOn);
 });
 
-// ⌨️ SOM GLOBAL (FORA DO CLICK)
-document.addEventListener('keydown', () => {
+// 🔊 carregar preferência salva
+const savedSound = localStorage.getItem('sound');
+if (savedSound !== null) {
+  soundOn = savedSound === 'true';
+  soundBtn.classList.toggle('on', soundOn);
+}
+
+// ⌨️ SOM GLOBAL (APENAS NA DIGITAÇÃO)
+document.addEventListener('keydown', (e) => {
   if (!soundOn || !isTypingPage) return;
 
+  // 🔥 evita tocar som em teclas especiais
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+
   keySound.currentTime = 0;
-  keySound.play();
-  
+  keySound.play().catch(() => {});
+});
+  function showPage(name) {
+  Object.entries(pages).forEach(([key, el]) => {
+    el.classList.toggle('page-hidden', key !== name);
+  });
+
+  // 🔊 CONTROLE DO SOM
+  isTypingPage = (name === 'home'); // 👈 ajuste aqui se necessário
+}
+typingInput.addEventListener('keydown', () => {
+  if (!soundOn) return;
+
+  keySound.currentTime = 0;
+  keySound.play().catch(() => {});
 });
 // ── Toast ──────────────────────────────────────
 function showToast(msg) {

@@ -216,46 +216,27 @@ header {
   gap: 50px;
 }
 
-.modes {
-  display: flex;
-  gap: 10px;
+.mode-select select {
   background: var(--surface2);
+  color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 50px;
-  padding: 11px;
-  transition: background 0.3s;
-  flex-wrap: wrap;
-  max-width: 500px;
-}
-
-.mode-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-family: var(--font-display);
-  font-size: 0.70rem;
-  letter-spacing: 0.03em;
-  padding: 5px 12px;
-  border-radius: 50px;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  outline: none;
+  transition: all 0.2s ease;
 }
-  
-  .mode-btn[data-mode="custom"] {
-  font-size: 1.8rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-  
 
-.mode-btn:hover { color: var(--text); background: var(--border); }
-.mode-btn.active {
-  background: var(--grad-a);
-  color: #fff;
-  box-shadow: 0 0 16px var(--red-glow);
+.mode-select select:hover {
+  border-color: #e53935;
+  box-shadow: 0 0 12px rgba(229, 57, 53, 0.7);
+  transform: translateY(-1px);
+}
+
+.mode-select select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.2);
 }
 
 #soundToggle{ width: 30px;
@@ -1317,7 +1298,9 @@ header {
   letter-spacing: 0;
   flex-shrink: 0;
   box-shadow: 0 0 10px rgba(1, 243, 14, 0.76);
+  
 }
+
 
 /* responsivo */
 @media (max-width: 600px) {
@@ -1539,7 +1522,7 @@ button.header-user:hover {
 }
 .profile-stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 .profile-stat {
@@ -1592,4 +1575,159 @@ button.header-user:hover {
   .profile-modal { padding: 28px 18px 22px; }
   .profile-avatar { width: 60px; height: 60px; font-size: 1.5rem; }
   .profile-stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+ 
+/* ══════════════════════════════════════════════
+   TEXTO DINÂMICO POR MODO DE TEMPO
+   ══════════════════════════════════════════════ */
+/* padrão já definido em .words-container = 0.98rem */
+ 
+/* modos curtos: fonte menor, mais palavras visíveis */
+body[data-mode="15"] .words-container  { font-size: 0.85rem; line-height: 1.9; }
+body[data-mode="30"] .words-container  { font-size: 0.90rem; line-height: 1.95; }
+body[data-mode="60"] .words-container  { font-size: 0.98rem; line-height: 2.0; }
+/* modos longos: fonte um pouco maior para conforto visual */
+body[data-mode="900"]  .words-container { font-size: 1.05rem; line-height: 2.05; }
+body[data-mode="1200"] .words-container { font-size: 1.08rem; line-height: 2.08; }
+body[data-mode="1800"] .words-container { font-size: 1.10rem; line-height: 2.10; }
+body[data-mode="custom"] .words-container { font-size: 1.02rem; line-height: 2.0; }
+ 
+/* ══════════════════════════════════════════════
+   TELA DE PARABÉNS
+   ══════════════════════════════════════════════ */
+.congrats-overlay {
+  position: fixed; inset: 0;
+  background: rgba(4,2,2,0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 9990;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+}
+[data-theme="light"] .congrats-overlay { background: rgba(180,160,160,0.65); }
+.congrats-overlay.active { opacity: 1; pointer-events: all; }
+ 
+.congrats-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 44px 40px 36px;
+  max-width: 460px; width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 50px rgba(192,57,43,0.12);
+}
+[data-theme="light"] .congrats-card {
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 0 30px rgba(192,57,43,0.07);
+}
+.congrats-overlay.active .congrats-card {
+  transform: translateY(0) scale(1);
+}
+.congrats-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red-dark), var(--red-main), #fff8f8, var(--red-main), var(--red-dark));
+}
+ 
+.congrats-emoji {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 14px;
+  animation: congratsPop 0.6s cubic-bezier(0.22,1,0.36,1) 0.15s both;
+}
+@keyframes congratsPop {
+  from { transform: scale(0.4); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+ 
+.congrats-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  background: var(--grad-a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 14px rgba(192,57,43,0.40));
+  margin-bottom: 8px;
+  animation: congratsPop 0.6s cubic-bezier(0.22,1,0.36,1) 0.25s both;
+}
+[data-theme="light"] .congrats-title { filter: none; }
+ 
+.congrats-sub {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+  animation: congratsPop 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s both;
+}
+ 
+.congrats-stats {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 28px;
+  animation: congratsPop 0.6s cubic-bezier(0.22,1,0.36,1) 0.38s both;
+}
+.congrats-stat {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 10px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.congrats-val {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--red-main);
+  line-height: 1;
+}
+.congrats-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+ 
+.congrats-actions {
+  display: flex; flex-direction: column; gap: 10px;
+  animation: congratsPop 0.6s cubic-bezier(0.22,1,0.36,1) 0.44s both;
+}
+.congrats-btn-primary { width: 100%; justify-content: center; }
+.congrats-btn-sec     { width: 100%; text-align: center; }
+ 
+/* ── Grid de avatares de imagem (personagens) ── */
+.profile-img-avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+ 
+.profile-img-avatar-btn {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.profile-img-avatar-btn img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
