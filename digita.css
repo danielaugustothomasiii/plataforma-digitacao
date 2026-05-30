@@ -1570,6 +1570,7 @@ button.header-user:hover {
   color: var(--red-main);
   box-shadow: 0 0 12px rgba(192,57,43,0.25);
 }
+
  
 @media (max-width: 480px) {
   .profile-modal { padding: 28px 18px 22px; }
@@ -1731,3 +1732,51 @@ body[data-mode="custom"] .words-container { font-size: 1.02rem; line-height: 2.0
   border-radius: 50%;
   display: block;
 }
+.mode-box {
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.mode-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mode-btn.active {
+  background: var(--grad-a);
+  color: #000;
+  font-weight: bold;
+}
+.para-counter {
+  display: flex;
+ min-width: 60px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--red-main);
+  background: rgba(192,57,43,0.10);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: 50px;
+  padding: 4px 12px;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 10px rgba(192,57,43,0.4);
+  transition: all 0.2s;
+}
+
+[data-theme="light"] .para-counter {
+  text-shadow: none;
+  background: rgba(185, 139, 133, 0.06);
+}
+

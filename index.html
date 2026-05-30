@@ -69,7 +69,16 @@
         <button class="nav-link" data-page="modo">Modos</button>
       </nav>
     </div>
-
+<div class="mode-group">
+  <div class="mode-select">
+    <select id="paraSelect">
+      <option value="inf">Parágrafos infinitos</option>
+      <option value="1">1 Parágrafo</option>
+      <option value="3">3 Parágrafos</option>
+      <option value="5">5 Parágrafos</option>
+    </select>
+  </div>
+</div>
     <div class="mode-select">
   <select id="modeSelect">
     <option value="15">15s</option>
@@ -94,6 +103,7 @@
       </button>
     </div>
   </header>
+  
 
   <!-- ═══════════ PÁGINA: INÍCIO ═══════════ -->
   <main id="pageHome">
@@ -118,6 +128,7 @@
         <span class="stat-label">Erros</span>
       </div>
     </div>
+    <span class="para-counter" id="paraCounter"></span>
 
     <div class="typing-wrapper">
       <div class="typing-box" id="typingBox">
@@ -260,8 +271,7 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
 </p>
           <p><strong> integrantes do grupo:</strong> Daniel Augusto thomasi<br>
 </p>
-          <p><strong>Curso/EAD:</strong> Ciências da Computação<br>
-</p>
+         
         </div>
       </div>
 

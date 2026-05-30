@@ -50,6 +50,7 @@ const state = {
   wordIndex: 0, charIndex: 0,
   started: false, finished: false,
   startTime: null, timer: null, timeLeft: 15,
+  
   // ── contadores ──
   keystrokes: 0,   // toda tecla de letra/espaço pressionada (não backspace)
   keyErrors: 0,    // teclas erradas acumuladas (inclui erros em palavras já confirmadas)
@@ -59,6 +60,8 @@ const state = {
   wpmHistory: [], wpmInterval: null,
   focused: false, customMode: false,
   lastTextIndex: -1,
+  parasTotal: 'inf', // 'inf' | 1 | 3 | 5
+parasUsed: 0,
 };
 
 // ── DOM Refs ───────────────────────────────────
@@ -116,7 +119,7 @@ $('sobreStartBtn').addEventListener('click', () => {
 // ══════════════════════════════════════════════
 // TESTE DE DIGITAÇÃO
 // ══════════════════════════════════════════════
-function init(newText = true) {
+function init(newText = false) {
   clearInterval(state.timer);
   clearInterval(state.wpmInterval);
   Object.assign(state, {
@@ -125,14 +128,18 @@ function init(newText = true) {
     keystrokes: 0, keyErrors: 0, liveErrors: 0, totalTyped: 0, correctChars: 0,
     wpmHistory: [],
     timeLeft: state.customMode ? Infinity : state.mode,
+    parasUsed: 0,
   });
+  state.currentPara = 1;
   if (newText) state.words = generateWords();
   renderWords();
   updateStats(false);
   typingInput.value = '';
   modalOverlay.classList.remove('active');
+  $('congratsOverlay').classList.remove('active');
   clickHint.style.opacity = '1';
   timerDisplay.textContent = state.customMode ? '∞' : formatTime(state.mode);
+  _updateParaCounter();
 }
 
 function formatTime(seconds) {
@@ -244,9 +251,19 @@ function handleInput(e) {
     state.charIndex = 0;
     typingInput.value = '';
     if (state.wordIndex >= state.words.length) {
-      if (state.customMode) { finishTest(); return; }
-      handleNewTextNeeded(); return;
-    }
+
+  state.currentPara++; // 🔥 conta o próximo parágrafo
+
+  // 🛑 se atingiu o limite → finaliza
+  if (state.currentPara > state.paraLimit) {
+    finishTest();
+    return;
+  }
+
+  // 🔁 carrega novo texto
+  handleNewTextNeeded();
+  return;
+}
     updateCursor();
     updateStats(true);
     return;
@@ -360,14 +377,110 @@ function startTest() {
     state.wpmHistory.push(elapsed > 0 ? Math.round((state.correctChars / 5) / elapsed) : 0);
   }, 1000);
 }
+function showCongrats(wpm, acc, elapsed) {
+  const overlay = $('congratsOverlay');
+  const emoji   = $('congratsEmoji');
 
+  if      (wpm >= 100) emoji.textContent = '⚡';
+  else if (wpm >= 80)  emoji.textContent = '🔥';
+  else if (wpm >= 60)  emoji.textContent = '🚀';
+  else if (wpm >= 40)  emoji.textContent = '💪';
+  else                 emoji.textContent = '🎉';
+
+  const sub = $('congratsSub');
+  const parasLimiteDone = state.parasTotal !== 'inf' && state.parasUsed >= state.parasTotal;
+
+  if (parasLimiteDone) {
+    const qtd = state.parasUsed;
+    sub.textContent = `Você completou ${qtd} parágrafo${qtd > 1 ? 's' : ''}!`;
+  } else if (state.customMode) {
+    sub.textContent = 'Você completou todo o texto!';
+  } else {
+    const sobrou = state.timeLeft;
+    sub.textContent = `Texto completo! Sobraram ${formatTime(sobrou)} no cronômetro.`;
+  }
+
+  $('congratsWpm').textContent  = wpm;
+  $('congratsAcc').textContent  = acc + '%';
+  $('congratsTime').textContent = Math.round(elapsed) + 's';
+
+  overlay.classList.add('active');
+}
+// Preenche o modal de resultado (sem abri-lo)
+function prepareResults(elapsed, wpm, acc, ke) {
+  $('finalWpm').textContent    = wpm;
+  $('finalAcc').textContent    = acc + '%';
+  $('finalTime').textContent   = Math.round(elapsed) + 's';
+  $('finalErrors').textContent = ke;
+  $('finalChars').textContent  = state.correctChars;
+  $('finalWords').textContent  = state.wordIndex;
+
+  let rating = 'Iniciante 🐢';
+  if      (wpm >= 100) rating = 'Lendário ⚡';
+  else if (wpm >= 80)  rating = 'Expert 🔥';
+  else if (wpm >= 60)  rating = 'Avançado 🚀';
+  else if (wpm >= 40)  rating = 'Intermediário 💪';
+  else if (wpm >= 20)  rating = 'Aprendiz ✨';
+  $('resultRating').textContent = rating;
+
+  drawChart();
+  updateProfileStats(wpm, acc);
+  saveResultToAPI({
+    wpm, accuracy: acc, errors: ke,
+    chars: state.correctChars, words: state.wordIndex,
+    duration: Math.round(elapsed),
+    mode: state.customMode ? 'custom' : state.mode + 's'
+  });
+}
+
+// Abre o modal de resultado (chamado pelo timer ou por closeCongrats)
+function showResults() {
+  const elapsed = (Date.now() - state.startTime) / 1000;
+  const ks  = state.keystrokes;
+  const ke  = state.keyErrors;
+  const wpm = elapsed > 0 ? Math.round((state.correctChars / 5) / (elapsed / 60)) : 0;
+  const acc = ks > 0 ? Math.round(((ks - ke) / ks) * 100) : 100;
+
+  prepareResults(elapsed, wpm, acc, ke);
+  modalOverlay.classList.add('active');
+}
+function closeCongrats(showFull) {
+  $('congratsOverlay').classList.remove('active');
+  if (showFull) {
+    // Abre o modal de resultado completo logo após fechar
+    modalOverlay.classList.add('active');
+  }
+}
 function finishTest() {
   clearInterval(state.timer);
   clearInterval(state.wpmInterval);
   state.finished = true;
   typingInput.blur();
   typingBox.classList.remove('focused');
-  showResults();
+
+  const elapsed        = (Date.now() - state.startTime) / 1000;
+  const ks             = state.keystrokes;
+  const ke             = state.keyErrors;
+  const wpm            = elapsed > 0 ? Math.round((state.correctChars / 5) / (elapsed / 60)) : 0;
+  const acc            = ks > 0 ? Math.round(((ks - ke) / ks) * 100) : 100;
+
+  const completouTexto = state.wordIndex >= state.words.length;
+  const tempoSobrou    = !state.customMode && state.timeLeft > 0;
+
+  // Parabéns quando:
+  // — limite de parágrafos atingido (qualquer modo)
+  // — modo custom terminou o único bloco
+  // — modo cronometrado e terminou o texto antes do tempo
+  const parasLimiteDone = state.parasTotal !== 'inf' && state.parasUsed >= state.parasTotal;
+  const deveParabenizar = parasLimiteDone || (completouTexto && (state.customMode || tempoSobrou));
+
+  prepareResults(elapsed, wpm, acc, ke);
+
+  if (deveParabenizar) {
+    showCongrats(wpm, acc, elapsed);
+  } else {
+    modalOverlay.classList.add('active');
+  }
 }
 
 function updateStats(live) {
@@ -503,12 +616,22 @@ function drawChart() {
 
 // ── Carrega próximo texto sem parar o timer ───────
 function handleNewTextNeeded() {
+  state.parasUsed++;
+
+  // Verifica se atingiu o limite de parágrafos
+  if (state.parasTotal !== 'inf' && state.parasUsed >= state.parasTotal) {
+    finishTest();
+    return;
+  }
+
+  // Carrega próximo parágrafo sem parar o timer
   state.words = generateWords(state.lastTextIndex);
   state.wordIndex = 0;
   state.charIndex = 0;
   typingInput.value = '';
   renderWords();
   updateCursor();
+  _updateParaCounter();
 }
 
 // ── Focus ──────────────────────────────────────
@@ -538,7 +661,7 @@ document.addEventListener('keydown', e => {
 
 // ── Modos ──────────────────────────────────────
 const modeSelect = document.getElementById("modeSelect");
-
+const paraSelect = document.getElementById("paraSelect");
 modeSelect.addEventListener("change", () => {
   const mode = modeSelect.value;
 
@@ -549,7 +672,14 @@ modeSelect.addEventListener("change", () => {
   init(true);
   focusInput();
 });
+paraSelect.addEventListener("change", () => {
+  const val = paraSelect.value;
 
+  state.parasTotal = val === 'inf' ? 'inf' : parseInt(val);
+
+  init(true);
+  focusInput();
+});
 // ── Botões ─────────────────────────────────────
 $('restartBtn').addEventListener('click', () => { init(false); focusInput(); });
 $('newTextBtn').addEventListener('click', () => { init(true); focusInput(); });
@@ -672,12 +802,32 @@ function openProfile() {
   const overlay = document.getElementById('profileOverlay');
   const name = sessionStorage.getItem('digita-user') || '—';
 
-  // Preenche nome
   document.getElementById('profileNameDisplay').textContent = name;
   document.getElementById('profileNameInput').value = name;
 
-  // Avatar (foto ou inicial)
   _renderProfileAvatar();
+
+  // Mostra/esconde botão de deletar foto
+  const deleteBtn = document.getElementById('profileDeleteBtn');
+  if (deleteBtn) {
+    deleteBtn.style.display = sessionStorage.getItem('digita-photo') ? 'flex' : 'none';
+  }
+
+  // Restaura seleção visual do avatar de personagem
+  const savedId = sessionStorage.getItem('digita-avatar-id');
+  document.querySelectorAll('.profile-img-avatar-btn').forEach(btn => {
+    btn.style.borderColor = '';
+    btn.style.boxShadow = '';
+  });
+  if (savedId) {
+    const savedBtn = document.querySelector(
+      `.profile-img-avatar-btn[onclick="setImgAvatar('${savedId}')"]`
+    );
+    if (savedBtn) {
+      savedBtn.style.borderColor = '#c0392b';
+      savedBtn.style.boxShadow = '0 0 10px rgba(192,57,43,0.55)';
+    }
+  }
 
   // Stats da sessão
   document.getElementById('profBestWpm').textContent = profileSession.bestWpm || '—';
@@ -764,7 +914,73 @@ function logoutProfile() {
   // Recarrega para mostrar tela de boas-vindas
   location.reload();
 }
+// ══════════════════════════════════════════════
+// AVATAR POR PERSONAGEM (botões de imagem)
+// ══════════════════════════════════════════════
+function setImgAvatar(id) {
+  // Remove seleção anterior
+  document.querySelectorAll('.profile-img-avatar-btn').forEach(btn => {
+    btn.style.borderColor = '';
+    btn.style.boxShadow = '';
+  });
 
+  // Marca o botão selecionado visualmente
+  const selectedBtn = document.querySelector(
+    `.profile-img-avatar-btn[onclick="setImgAvatar('${id}')"]`
+  );
+  if (selectedBtn) {
+    selectedBtn.style.borderColor = '#c0392b';
+    selectedBtn.style.boxShadow = '0 0 10px rgba(192,57,43,0.55)';
+
+    // Pega a imagem do botão
+    const img = selectedBtn.querySelector('img');
+    if (img) {
+      const dataUrl = _imgToDataUrl(img);
+      sessionStorage.setItem('digita-photo', dataUrl);
+      sessionStorage.setItem('digita-avatar-id', id);
+    }
+  }
+
+  // Remove foto personalizada (upload) se houver
+  // (personagem substitui foto de upload)
+  _renderProfileAvatar();
+  _renderHeaderAvatar();
+  showToast('Avatar atualizado ✓');
+}
+
+// Converte <img> já carregada em dataURL via canvas
+function _imgToDataUrl(imgEl) {
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width  = imgEl.naturalWidth  || imgEl.width  || 128;
+    canvas.height = imgEl.naturalHeight || imgEl.height || 128;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/png');
+  } catch {
+    // fallback: src direto (pode falhar por CORS em ambiente prod)
+    return imgEl.src;
+  }
+}
+function deletePhoto() {
+  sessionStorage.removeItem('digita-photo');
+  sessionStorage.removeItem('digita-avatar-id');
+
+  // Limpa seleção visual dos botões de personagem
+  document.querySelectorAll('.profile-img-avatar-btn').forEach(btn => {
+    btn.style.borderColor = '';
+    btn.style.boxShadow = '';
+  });
+
+  _renderProfileAvatar();
+  _renderHeaderAvatar();
+
+  // Esconde o botão de deletar
+  const deleteBtn = document.getElementById('profileDeleteBtn');
+  if (deleteBtn) deleteBtn.style.display = 'none';
+
+  showToast('Avatar removido ✓');
+}
 // Fechar com Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
@@ -778,7 +994,34 @@ function updateProfileStats(wpm, acc) {
   if (wpm > profileSession.bestWpm) profileSession.bestWpm = wpm;
   if (acc > profileSession.bestAcc) profileSession.bestAcc = acc;
 }
+// ── Contador de parágrafos no header ──────────
+function _updateParaCounter() {
+  const counter = $('paraCounter');
+  if (!counter) return;
+  if (state.parasTotal === 'inf') {
+    counter.textContent = '';
+    counter.style.display = 'none';
+    return;
+  }
+  counter.style.display = 'flex';
+  counter.textContent = state.parasUsed + ' / ' + state.parasTotal;
+}
 
+// ── Inicializa seletor de parágrafos ──────────
+(function initParaSelector() {
+  document.querySelectorAll('.para-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.para-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const val = btn.dataset.paras;
+      state.parasTotal = val === 'inf' ? 'inf' : parseInt(val);
+      state.parasUsed  = 0;
+      init(true);
+      focusInput();
+      showToast(val === 'inf' ? 'Parágrafos: infinito' : `${val} parágrafo${val > 1 ? 's' : ''}`);
+    });
+  });
+})();
 // ── Boot ───────────────────────────────────────
 const savedTheme = localStorage.getItem('digita-theme') || 'dark';
 applyTheme(savedTheme);
