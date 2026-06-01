@@ -1,48 +1,388 @@
-const TEXTOS = [
-  // — Linguagens de programação —
-  "Python foi criada por Guido van Rossum e lançada em 1991 com foco em legibilidade e simplicidade. Sua sintaxe limpa permite que iniciantes aprendam lógica de programação sem se perder em símbolos complexos. Hoje é uma das linguagens mais usadas no mundo para ciência de dados inteligência artificial e automação.",
+// ══════════════════════════════════════════════
+// BANCO DE TEXTOS — por tamanho
+// ══════════════════════════════════════════════
 
-  "JavaScript nasceu em apenas dez dias nas mãos de Brendan Eich em 1995 para tornar páginas web interativas. O que começou como um script simples de navegador se tornou uma linguagem completa capaz de rodar tanto no frontend quanto no backend com o Node. Nenhuma outra linguagem está tão presente no cotidiano da internet.",
-
-  "C foi desenvolvida por Dennis Ritchie nos laboratórios Bell na década de 1970 e moldou praticamente tudo que veio depois. O próprio sistema operacional Unix foi reescrito em C tornando possível a portabilidade entre diferentes máquinas. Até hoje sistemas embarcados kernels e drivers são escritos em C por seu controle preciso sobre o hardware.",
-
-  "Java foi apresentada pela Sun Microsystems em 1995 com a promessa de escreva uma vez execute em qualquer lugar. Sua máquina virtual permite que o mesmo código rode em Windows Linux e Mac sem modificações. Por décadas dominou o desenvolvimento corporativo e ainda é a base de milhões de aplicações Android.",
-
-  "Rust foi projetada pela Mozilla para substituir C e C++ em situações onde segurança de memória é crítica. Seu sistema de ownership elimina erros como ponteiros nulos e race conditions em tempo de compilação sem precisar de um coletor de lixo. Desenvolvedores que aprendem Rust costumam dizer que a linguagem os ensina a pensar diferente.",
-
-  // — Histórias da programação —
-  "Ada Lovelace é considerada a primeira programadora da história por ter escrito em 1843 um algoritmo para a máquina analítica de Charles Babbage. Ela percebeu que a máquina poderia ir além de cálculos numéricos e manipular qualquer símbolo seguindo regras. Sua visão estava um século à frente do seu tempo.",
-
-  "Alan Turing desenvolveu durante a Segunda Guerra Mundial a máquina que quebrou o código Enigma usado pelos nazistas. Seu trabalho teórico sobre máquinas de estado finito e computabilidade lançou as bases da ciência da computação moderna. O Prêmio Turing concedido anualmente pela ACM leva seu nome como a maior honraria da área.",
-
-  "Grace Hopper criou o primeiro compilador da história em 1952 ao perceber que programadores perdiam tempo escrevendo instruções em linguagem de máquina. Ela acreditava que computadores deveriam entender palavras em inglês e não apenas zeros e uns. Seu trabalho levou ao desenvolvimento do COBOL linguagem que ainda processa trilhões de transações bancárias hoje.",
-
-  "Linus Torvalds tinha apenas 21 anos quando publicou em 1991 numa lista de emails que estava criando um sistema operacional por hobby. O que parecia um projeto pessoal cresceu para se tornar o Linux o kernel mais usado no mundo presente em servidores smartphones e supercomputadores. Torvalds provou que software colaborativo e aberto pode superar qualquer corporação.",
-
-  "Tim Berners-Lee propôs em 1989 enquanto trabalhava no CERN um sistema de hipertexto para compartilhar informações entre pesquisadores. Seu chefe na época anotou no projeto a mensagem vaga mas empolgante. Três anos depois a World Wide Web estava no ar e o mundo jamais voltaria a ser o mesmo.",
-
-  // — Conceitos de programação —
-  "Um algoritmo é uma sequência finita de instruções bem definidas para resolver um problema ou realizar uma tarefa. Assim como uma receita de bolo descreve passo a passo como produzir um resultado os algoritmos guiam o computador através de operações lógicas. A elegância de um bom algoritmo está em resolver o problema usando o menor número de passos possível.",
-
-  "Programação orientada a objetos organiza o código em torno de entidades chamadas objetos que combinam dados e comportamentos. Um carro por exemplo pode ser um objeto com atributos como cor e velocidade e métodos como acelerar e frear. Essa forma de pensar aproxima o código da maneira como percebemos o mundo real.",
-
-  "O conceito de recursão permite que uma função chame a si mesma para resolver versões menores do mesmo problema. O exemplo clássico é o cálculo do fatorial onde o resultado de um número depende do fatorial do número anterior. Embora elegante a recursão exige cuidado para não criar um loop infinito que esgote a memória.",
-
-  "Controle de versão com Git permite que desenvolvedores registrem cada mudança no código como um snapshot no tempo. É possível voltar a qualquer ponto do histórico comparar versões e trabalhar em paralelo sem medo de perder trabalho. O GitHub transformou o Git numa plataforma social onde milhões colaboram em projetos abertos ao redor do mundo.",
-
-  "APIs são interfaces que permitem que diferentes sistemas se comuniquem sem precisar conhecer os detalhes internos um do outro. Quando um aplicativo de clima exibe a previsão do tempo ele provavelmente está consultando uma API meteorológica em segundo plano. Elas são os blocos de construção que tornam possível a internet interconectada que usamos hoje.",
-
-  // — Cotidiano do programador —
-  "Depurar código é o processo de encontrar e corrigir erros que fazem um programa se comportar de forma inesperada. O termo bug originou de uma mariposa real encontrada por Grace Hopper dentro de um computador em 1947 que causava falhas no sistema. Hoje depurar é uma das habilidades mais valorizadas pois exige raciocínio lógico e muita paciência.",
-
-  "Todo programador experiente sabe que código legível vale mais do que código esperto. Escrever variáveis com nomes claros adicionar comentários úteis e dividir funções grandes em pequenas partes facilita a manutenção meses depois. Afinal o próximo a ler seu código pode ser você mesmo e você vai agradecer pela clareza.",
-
-  "Testes automatizados são como uma rede de segurança que garante que novas mudanças não quebrem o que já funcionava. A prática de escrever o teste antes do código chamada desenvolvimento orientado a testes obriga o programador a pensar no comportamento esperado antes de implementar. Times que testam bem dormem melhor à noite.",
-
-  "O terminal é uma das ferramentas mais poderosas que um desenvolvedor pode dominar. Com poucos comandos é possível navegar pelo sistema de arquivos executar scripts gerenciar processos e se conectar a servidores remotos. Quem aprende a usar bem a linha de comando descobre que o mouse às vezes é só um atalho para o que o teclado já faz melhor.",
-
-  "Open source é o modelo onde o código fonte de um programa é disponibilizado publicamente para qualquer pessoa ver modificar e distribuir. Projetos como Linux Firefox e VS Code mostram que comunidades colaborativas podem criar software de qualidade igual ou superior ao proprietário. Contribuir para projetos open source é também uma das melhores formas de aprender e construir um portfólio.",
+// Curtos: ~60–100 chars → ideais para 15s
+const TEXTOS_CURTOS = [
+  // Curiosidades rápidas
+  "o primeiro mouse foi feito de madeira",
+  "ada lovelace escreveu o primeiro algoritmo da historia",
+  "o google nasceu numa garagem em menlo park california",
+  "o primeiro email foi enviado em 1971 por ray tomlinson",
+  "python foi criada para ser simples e legivel",
+  "o wifi significa wireless fidelity",
+  "o primeiro virus de computador se chamava creeper",
+  "a internet nasceu como uma rede militar chamada arpanet",
+  "o bit e a menor unidade de informacao digital",
+  "dennis ritchie criou a linguagem c nos anos setenta",
+  "o primeiro computador pessoal foi o altair 8800",
+  "linux foi criado por linus torvalds em 1991",
+  "o html foi inventado por tim berners lee em 1991",
+  "um byte tem oito bits de informacao",
+  "grace hopper encontrou um inseto causando erro num computador",
+  "o primeiro disco rigido da ibm pesava mais de uma tonelada",
+  "javascript foi criado em apenas dez dias por brendan eich",
+  "o primeiro computador eletronico se chamava eniac",
+  "o cd rom foi lancado comercialmente em 1982",
+  "alan turing e considerado o pai da ciencia da computacao",
+  "o primeiro smartphone foi lancado pela apple em 2007",
+  "ram significa memoria de acesso aleatorio em ingles",
+  "o processador e o cerebro do computador",
+  "sql foi criado para consultar bancos de dados relacionais",
+  "o usb foi inventado para padronizar conexoes de perifericos",
 ];
+
+// Medios: ~200–350 chars → ideais para 30s
+const TEXTOS_MEDIOS = [
+  "o eniac foi o primeiro computador eletronico de uso geral concluido em 1945. ocupava uma sala inteira e pesava mais de vinte e sete toneladas. sua velocidade era de cinco mil operacoes por segundo algo impensavel para a epoca mas ridiculo perto dos processadores modernos.",
+
+  "alan turing propôs em 1950 o famoso teste que leva seu nome. a ideia era simples se uma maquina conversasse com um humano sem que ele percebesse que era uma maquina entao ela poderia ser considerada inteligente. o conceito ainda e debatido na inteligencia artificial moderna.",
+
+  "grace hopper acreditava que computadores deveriam entender palavras em ingles e nao apenas codigos binarios. ela criou o primeiro compilador da historia em 1952. seu trabalho levou ao desenvolvimento do cobol linguagem ainda usada em sistemas bancarios ao redor do mundo.",
+
+  "o unix foi criado por ken thompson e dennis ritchie nos laboratorios bell em 1969. seu design simples e modular influenciou praticamente todos os sistemas operacionais modernos. linux e macOS sao herdeiros diretos dos principios estabelecidos pelo unix.",
+
+  "a lei de moore diz que o numero de transistores num chip dobra aproximadamente a cada dois anos. gordon moore fez essa observacao em 1965 e ela se manteve verdadeira por decadas. hoje os transistores tem apenas alguns atomos de espessura o que aproxima os limites fisicos da computacao.",
+
+  "o primeiro videogame comercial foi o pong lancado pela atari em 1972. dois quadrados e um ponto na tela criaram uma industria bilionaria. hoje os jogos geram mais receita do que o cinema e a musica juntos no mercado de entretenimento global.",
+
+  "a criptografia e a ciencia de proteger informacoes transformando dados legiveis em codigo. ela existe ha milhares de anos mas ganhou nova relevancia na era digital. toda comunicacao segura na internet depende de algoritmos criptograficos modernos para proteger dados sensiveis.",
+
+  "os bancos de dados relacionais foram propostos por edgar codd em 1970 num artigo cientifico revolucionario. a ideia de organizar dados em tabelas com relacoes entre elas transformou como sistemas armazenam informacao. oracle ibm e microsoft construiram imperios sobre esse conceito.",
+
+  "o conceito de nuvem computacional existe desde os anos sessenta mas popularizou em 2006 quando a amazon lancou o aws. a ideia e simples alugar poder computacional pela internet em vez de comprar hardware fisico. hoje a nuvem sustenta a infraestrutura da maioria dos servicos digitais.",
+
+  "git foi criado por linus torvalds em 2005 apos uma disputa com a empresa do sistema anterior. em apenas dias ele construiu uma ferramenta que revolucionou como desenvolvedores colaboram em codigo. hoje o github que usa git hospeda mais de trezentos milhoes de repositorios publicos.",
+
+  "a primeira rede de computadores que conectou universidades americanas foi a arpanet em 1969. a primeira mensagem enviada foi a palavra login mas o sistema travou apos as duas primeiras letras. mesmo assim aquele momento marcou o inicio do que viria a ser a internet.",
+
+  "um algoritmo e uma sequencia de passos para resolver um problema. a palavra vem do nome do matematico persa al-khuarizmi que viveu no seculo nono. seus trabalhos sobre algebra e aritmetica chegaram a europa e influenciaram a matematica e a computacao para sempre.",
+
+  "o processador intel 4004 lancado em 1971 foi o primeiro microprocessador comercial da historia. ele tinha apenas 2300 transistores e rodava a 740 kilohertz. um smartphone moderno tem bilhoes de transistores e processa informacoes em velocidades bilhoes de vezes maiores.",
+
+  "phishing e uma tecnica de golpe onde criminosos se passam por entidades confiaveis para roubar dados. o nome vem do ingles fishing ou seja pescar vitimas. e a forma mais comum de ataque cibernetico e afeta milhoes de pessoas e empresas ao redor do mundo todo ano.",
+
+  "o codigo aberto ou open source e um modelo onde o codigo fonte e disponibilizado publicamente. projetos como linux firefox e vscode mostram que comunidades podem criar software de qualidade superior ao proprietario. a filosofia open source transformou como o mundo desenvolve e distribui software.",
+
+  "ram e a memoria de acesso aleatorio onde o computador guarda dados em uso temporariamente. quanto mais ram um sistema tem mais programas pode rodar ao mesmo tempo sem lentidao. ao desligar o computador tudo que estava na ram e apagado diferente do disco rigido que persiste.",
+
+  "o protocolo http define como navegadores e servidores web se comunicam na internet. quando voce digita um endereco no navegador ele envia uma requisicao http ao servidor. o servidor responde com o codigo html da pagina que o navegador interpreta e exibe na tela.",
+
+  "inteligencia artificial e um campo da computacao que busca criar sistemas capazes de realizar tarefas que normalmente exigem inteligencia humana. reconhecimento de voz visao computacional e traducao automatica sao exemplos praticos. o aprendizado de maquina e a principal tecnica usada hoje.",
+
+  "o bluetooth recebeu esse nome em homenagem ao rei dinamarques harald bluetooth que unificou tribos escandinaves. a tecnologia une dispositivos sem fio em curtas distancias. criada em 1994 pela ericsson hoje esta presente em fones teclados mouses e inumeros dispositivos do cotidiano.",
+
+  "compiladores sao programas que traduzem codigo escrito por humanos em instrucoes que o processador entende. sem compiladores cada programador precisaria escrever codigo diretamente em linguagem de maquina. grace hopper provou que computadores podiam fazer essa traducao automaticamente.",
+];
+
+// Longos: ~400–600 chars → ideais para 60s e modos de parágrafo
+const TEXTOS_LONGOS = [
+  "python foi criada por guido van rossum e lancada em 1991 com foco em legibilidade e simplicidade. sua sintaxe limpa permite que iniciantes aprendam logica de programacao sem se perder em simbolos complexos. hoje e uma das linguagens mais usadas no mundo para ciencia de dados inteligencia artificial e automacao. grandes empresas como google netflix e spotify usam python em partes criticas de seus sistemas. a comunidade enorme e o ecossistema rico de bibliotecas fazem dela uma escolha natural para projetos de qualquer tamanho.",
+
+  "javascript nasceu em apenas dez dias nas maos de brendan eich em 1995 para tornar paginas web interativas. o que comecou como um script simples de navegador se tornou uma linguagem completa capaz de rodar tanto no frontend quanto no backend com o node. nenhuma outra linguagem esta tao presente no cotidiano da internet. frameworks como react angular e vue transformaram como interfaces sao construidas. hoje javascript e a linguagem mais popular do mundo segundo pesquisas anuais com desenvolvedores de todo o planeta.",
+
+  "c foi desenvolvida por dennis ritchie nos laboratorios bell na decada de 1970 e moldou praticamente tudo que veio depois. o proprio sistema operacional unix foi reescrito em c tornando possivel a portabilidade entre diferentes maquinas. ate hoje sistemas embarcados kernels e drivers sao escritos em c por seu controle preciso sobre o hardware. linguagens como c++ java e c# sao descendentes diretos do c. aprender c ainda hoje e considerado fundamental para entender como computadores realmente funcionam por baixo das abstracoes.",
+
+  "java foi apresentada pela sun microsystems em 1995 com a promessa de escreva uma vez execute em qualquer lugar. sua maquina virtual permite que o mesmo codigo rode em windows linux e mac sem modificacoes. por decadas dominou o desenvolvimento corporativo e ainda e a base de milhoes de aplicacoes android. a robustez do ecossistema java e seu forte sistema de tipos atraem empresas que precisam de confiabilidade. bancos seguradoras e governos ao redor do mundo dependem de sistemas java que rodam ininterruptamente ha anos.",
+
+  "rust foi projetada pela mozilla para substituir c e c++ em situacoes onde seguranca de memoria e critica. seu sistema de ownership elimina erros como ponteiros nulos e race conditions em tempo de compilacao sem precisar de um coletor de lixo. desenvolvedores que aprendem rust costumam dizer que a linguagem os ensina a pensar diferente. o sistema operacional android ja incorpora componentes escritos em rust. a microsoft esta reescrevendo partes do windows em rust para reduzir vulnerabilidades de seguranca.",
+
+  "ada lovelace e considerada a primeira programadora da historia por ter escrito em 1843 um algoritmo para a maquina analitica de charles babbage. ela percebeu que a maquina poderia ir alem de calculos numericos e manipular qualquer simbolo seguindo regras. sua visao estava um seculo a frente do seu tempo. a linguagem de programacao ada criada para o departamento de defesa americano foi batizada em sua homenagem. seu trabalho so foi reconhecido devidamente no seculo vinte quando a computacao comecou a se desenvolver de verdade.",
+
+  "alan turing desenvolveu durante a segunda guerra mundial a maquina que quebrou o codigo enigma usado pelos nazistas. seu trabalho teorico sobre maquinas de estado finito e computabilidade lancou as bases da ciencia da computacao moderna. o premio turing concedido anualmente pela acm leva seu nome como a maior honraria da area. apesar de seus feitos turing foi perseguido pelo governo britanico por sua orientacao sexual. em 2013 a rainha elizabeth concedeu-lhe um perdao postume reconhecendo a injustica historica cometida contra ele.",
+
+  "grace hopper criou o primeiro compilador da historia em 1952 ao perceber que programadores perdiam tempo escrevendo instrucoes em linguagem de maquina. ela acreditava que computadores deveriam entender palavras em ingles e nao apenas zeros e uns. seu trabalho levou ao desenvolvimento do cobol linguagem que ainda processa trilhoes de transacoes bancarias hoje. ela tambem popularizou o termo bug depois de encontrar uma mariposa real dentro de um computador que causava falhas. grace hopper serviu na marinha americana e chegou ao posto de contra-almirante.",
+
+  "linus torvalds tinha apenas 21 anos quando publicou em 1991 numa lista de emails que estava criando um sistema operacional por hobby. o que parecia um projeto pessoal cresceu para se tornar o linux o kernel mais usado no mundo presente em servidores smartphones e supercomputadores. torvalds provou que software colaborativo e aberto pode superar qualquer corporacao. hoje o linux roda em mais de 90 por cento dos servidores da internet e em todos os supercomputadores da lista top 500. o android que alimenta a maioria dos smartphones do mundo tambem e baseado no kernel linux.",
+
+  "tim berners-lee propôs em 1989 enquanto trabalhava no cern um sistema de hipertexto para compartilhar informacoes entre pesquisadores. seu chefe na epoca anotou no projeto a mensagem vaga mas empolgante. tres anos depois a world wide web estava no ar e o mundo jamais voltaria a ser o mesmo. berners-lee recusou patentear a web deixando-a livre para todos. hoje ele lidera o movimento pela web aberta lutando contra a concentracao de poder nas maos de poucas empresas de tecnologia que transformaram sua invencao numa ferramenta de vigilancia e monopolio.",
+
+  "um algoritmo e uma sequencia finita de instrucoes bem definidas para resolver um problema ou realizar uma tarefa. assim como uma receita de bolo descreve passo a passo como produzir um resultado os algoritmos guiam o computador atraves de operacoes logicas. a elegancia de um bom algoritmo esta em resolver o problema usando o menor numero de passos possivel. algoritmos de busca ordenacao e compressao estao presentes em quase todo software moderno. entender algoritmos e considerado uma das habilidades mais fundamentais para qualquer desenvolvedor de software.",
+
+  "programacao orientada a objetos organiza o codigo em torno de entidades chamadas objetos que combinam dados e comportamentos. um carro por exemplo pode ser um objeto com atributos como cor e velocidade e metodos como acelerar e frear. essa forma de pensar aproxima o codigo da maneira como percebemos o mundo real. linguagens como java python e c++ suportam orientacao a objetos. o paradigma facilita a reutilizacao de codigo atraves de heranca e polimorfismo reduzindo duplicacao e tornando sistemas grandes mais faceis de manter e evoluir.",
+
+  "controle de versao com git permite que desenvolvedores registrem cada mudanca no codigo como um snapshot no tempo. e possivel voltar a qualquer ponto do historico comparar versoes e trabalhar em paralelo sem medo de perder trabalho. o github transformou o git numa plataforma social onde milhoes colaboram em projetos abertos ao redor do mundo. pull requests code reviews e issues sao praticas que o github popularizou e que hoje sao padroes na industria. o git foi criado por linus torvalds em apenas dias como alternativa a um sistema proprietario que passou a cobrar pelo uso.",
+
+  "apis sao interfaces que permitem que diferentes sistemas se comuniquem sem precisar conhecer os detalhes internos um do outro. quando um aplicativo de clima exibe a previsao do tempo ele provavelmente esta consultando uma api meteorologica em segundo plano. elas sao os blocos de construcao que tornam possivel a internet interconectada que usamos hoje. apis rest sao o padrao mais comum usando http para trocar dados em formato json. a economia de apis movimenta bilhoes de dolares com empresas cobrando por acesso a seus dados e servicos atraves delas.",
+
+  "testes automatizados sao como uma rede de seguranca que garante que novas mudancas nao quebrem o que ja funcionava. a pratica de escrever o teste antes do codigo chamada desenvolvimento orientado a testes obriga o programador a pensar no comportamento esperado antes de implementar. times que testam bem dormem melhor a noite. testes unitarios de integracao e end to end cobrem diferentes niveis do sistema. grandes empresas como google e microsoft investem enormes recursos em infraestrutura de testes pois o custo de um bug em producao e muito maior do que preveni-lo.",
+];
+
+// ══════════════════════════════════════════════
+// SELECAO INTELIGENTE POR MODO
+// ══════════════════════════════════════════════
+function getPoolForCurrentMode() {
+  if (state.customMode) return TEXTOS_LONGOS;
+
+  const secs = state.mode;
+  if (secs <= 15)  return TEXTOS_CURTOS;
+  if (secs <= 30)  return TEXTOS_MEDIOS;
+  if (secs <= 60)  return TEXTOS_MEDIOS;    // 60s usa médios também
+  return TEXTOS_LONGOS;                     // 15min, 20min, 30min
+}
+
+// Compatível com lógica de parágrafos existente
+function generateWords(excludeIndex) {
+  const pool = getPoolForCurrentMode();
+
+  let candidates = pool.map((t, i) => ({ t, i }));
+  if (excludeIndex !== undefined) {
+    candidates = candidates.filter(x => x.i !== excludeIndex);
+  }
+
+  const picked = candidates[Math.floor(Math.random() * candidates.length)];
+  state.lastTextIndex = picked.i;
+
+  let texto = picked.t
+    .replace(/[.,!?;:""«»]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+    .toLowerCase();
+
+  return texto.split(' ').filter(w => w.length > 0);
+}
+const SOCKET_URL = 'http://localhost:3000';
+let socket = null;
+let rankingData = { allTime: [], today: [], recent: [], stats: {} };
+let rankActiveTab = 'alltime';
+
+// ── Socket.IO connection ───────────────────────
+function initSocket() {
+  if (typeof io === 'undefined') return;
+
+  socket = io(SOCKET_URL, { reconnectionDelay: 2000, timeout: 5000 });
+
+  socket.on('connect', () => {
+    setRankConnection(true);
+    socket.emit('request_ranking');
+  });
+
+  socket.on('disconnect', () => setRankConnection(false));
+
+  socket.on('ranking_update', data => {
+    rankingData = data;
+    updateRankLastTime();
+    if (!$('pageRanking').classList.contains('page-hidden')) renderRanking();
+    updateGlobalStats(data.stats);
+  });
+}
+
+function setRankConnection(online) {
+  const dot   = $('rankConnDot');
+  const label = $('rankConnLabel');
+  if (!dot) return;
+  dot.className   = 'rank-conn-dot' + (online ? ' online' : ' offline');
+  label.className = 'rank-conn-label' + (online ? ' online' : ' offline');
+  label.textContent = online ? 'Conectado • tempo real' : 'Sem conexão — tentando reconectar...';
+}
+
+function updateRankLastTime() {
+  const el = $('rankLastUpdate');
+  if (!el) return;
+  const now = new Date();
+  el.textContent = 'Atualizado às ' + now.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+// ══════════════════════════════════════════════
+// RANKING — RENDER
+// ══════════════════════════════════════════════
+
+function updateGlobalStats(stats) {
+  if (!stats) return;
+  _bumpStat('gsTotalTests',   stats.total_tests   ?? '—');
+  _bumpStat('gsTotalPlayers', stats.total_players ?? '—');
+  _bumpStat('gsRecordWpm',    stats.record_wpm    ?? '—');
+  _bumpStat('gsAvgWpm',       stats.avg_wpm       ?? '—');
+}
+
+function _bumpStat(id, val) {
+  const el = $(id);
+  if (!el) return;
+  const prev = el.textContent;
+  el.textContent = val;
+  if (String(prev) !== String(val) && prev !== '—') {
+    el.classList.remove('bump');
+    void el.offsetWidth;
+    el.classList.add('bump');
+    setTimeout(() => el.classList.remove('bump'), 350);
+  }
+}
+
+function renderRanking() {
+  if (rankActiveTab === 'alltime') renderTableAlltime();
+  else if (rankActiveTab === 'today') renderTableToday();
+  else renderFeedRecent();
+}
+
+function renderTableAlltime() {
+  const body = $('bodyAlltime');
+  const rows = rankingData.allTime || [];
+  const maxWpm = rows.length ? rows[0].wpm : 1;
+
+  if (!rows.length) {
+    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado ainda. Seja o primeiro! 🏆</td></tr>';
+    return;
+  }
+
+  body.innerHTML = rows.map((r, i) => {
+    const pos = i + 1;
+    return `
+      <tr class="${pos <= 3 ? 'pos-' + pos : ''}">
+        <td class="td-pos">${medalOrNum(pos)}</td>
+        <td class="td-name">${nameCell(r.name)}</td>
+        <td class="td-wpm">${wpmCell(r.wpm, maxWpm)}</td>
+        <td class="td-acc">${accCell(r.accuracy)}</td>
+        <td>${modeBadge(r.mode)}</td>
+        <td class="td-date">${fmtDate(r.created_at)}</td>
+      </tr>`;
+  }).join('');
+}
+
+function renderTableToday() {
+  const body = $('bodyToday');
+  const rows = rankingData.today || [];
+  const maxWpm = rows.length ? rows[0].wpm : 1;
+
+  if (!rows.length) {
+    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado hoje ainda. Comece agora! 🚀</td></tr>';
+    return;
+  }
+
+  body.innerHTML = rows.map((r, i) => {
+    const pos = i + 1;
+    return `
+      <tr class="${pos <= 3 ? 'pos-' + pos : ''}">
+        <td class="td-pos">${medalOrNum(pos)}</td>
+        <td class="td-name">${nameCell(r.name)}</td>
+        <td class="td-wpm">${wpmCell(r.wpm, maxWpm)}</td>
+        <td class="td-acc">${accCell(r.accuracy)}</td>
+        <td>${modeBadge(r.mode)}</td>
+        <td class="td-date">${fmtTime(r.created_at)}</td>
+      </tr>`;
+  }).join('');
+}
+
+function renderFeedRecent() {
+  const feed = $('rankFeed');
+  const items = rankingData.recent || [];
+
+  if (!items.length) {
+    feed.innerHTML = '<div class="rank-empty">Nenhuma atividade recente.</div>';
+    return;
+  }
+
+  feed.innerHTML = items.map(r => `
+    <div class="rank-feed-item">
+      <div class="rank-feed-avatar">${r.name.charAt(0).toUpperCase()}</div>
+      <div class="rank-feed-info">
+        <div class="rank-feed-name">${escHtml(r.name)}</div>
+        <div class="rank-feed-meta">${modeBadge(r.mode)} &nbsp;${fmtDateTime(r.created_at)}</div>
+      </div>
+      <div class="rank-feed-wpm">
+        ${r.wpm}
+        <span>WPM</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── Helpers de célula ──────────────────────────
+function medalOrNum(pos) {
+  if (pos === 1) return '<span class="rank-medal">🥇</span>';
+  if (pos === 2) return '<span class="rank-medal">🥈</span>';
+  if (pos === 3) return '<span class="rank-medal">🥉</span>';
+  return `<span class="rank-pos-num">${pos}</span>`;
+}
+
+function nameCell(name) {
+  return `
+    <div class="rank-name-wrap">
+      <div class="rank-avatar">${escHtml(name.charAt(0).toUpperCase())}</div>
+      <span class="rank-player-name">${escHtml(name)}</span>
+    </div>`;
+}
+
+function wpmCell(wpm, maxWpm) {
+  const pct = Math.round((wpm / maxWpm) * 100);
+  return `
+    <div>
+      <div class="rank-wpm">${wpm}</div>
+      <div class="rank-wpm-bar" style="width:${pct}%"></div>
+    </div>`;
+}
+
+function accCell(acc) {
+  const cls = acc >= 95 ? 'high' : acc >= 85 ? 'mid' : '';
+  return `<span class="rank-acc-val ${cls}">${acc}%</span>`;
+}
+
+function modeBadge(mode) {
+  return `<span class="rank-mode-badge">${escHtml(mode || '—')}</span>`;
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' });
+}
+
+function fmtTime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+}
+
+function fmtDateTime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+
+// ── Abas internas do ranking ───────────────────
+(function initRankTabs() {
+  document.querySelectorAll('.rank-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.rank-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      rankActiveTab = tab.dataset.tab;
+      $('rankPanel' + rankActiveTab.charAt(0).toUpperCase() + rankActiveTab.slice(1)).classList.add('active');
+      renderRanking();
+    });
+  });
+})();
+
+async function saveResultToAPI(result) {
+  let name = sessionStorage.getItem('digita-user') || 'Anônimo';
+name = name.trim().slice(0, 20);
+
+  // via Socket (mais rápido, sem esperar response)
+  if (socket && socket.connected) {
+    try {
+      await fetch(`${SOCKET_URL}/api/results`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch {}
+    return;
+  }
+
+  // fallback HTTP
+  try {
+    await fetch(`${SOCKET_URL}/api/results`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch {}
+}
 
 // ── State ──────────────────────────────────────
 const state = {
@@ -82,16 +422,28 @@ const modeBtnsNav    = $('modeBtns');
 // NAVEGAÇÃO DE PÁGINAS
 // ══════════════════════════════════════════════
 const pages = {
-  home:  $('pageHome'),
-  dicas: $('pageDicas'),
-  sobre: $('pageSobre'),
+   home:    $('pageHome'),
+  dicas:   $('pageDicas'),
+  sobre:   $('pageSobre'),
+  ranking: $('pageRanking'),
 };
+const links = document.querySelectorAll('.nav-link');
 
+links.forEach(link => {
+  link.addEventListener('click', () => {
+    links.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
 function showPage(name) {
   Object.entries(pages).forEach(([key, el]) => {
     el.classList.toggle('page-hidden', key !== name);
   });
-
+if (name === 'ranking') {
+  renderRanking();
+  updateGlobalStats(rankingData.stats);
+  if (socket && socket.connected) socket.emit('request_ranking');
+}
   document.querySelectorAll('.nav-link').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.page === name);
   });
@@ -147,22 +499,6 @@ function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return s === 0 ? m + 'min' : m + 'min ' + s + 's';
-}
-
-function generateWords(excludeIndex) {
-  // Sempre usa 1 parágrafo — se o usuário terminar antes do tempo,
-  // um novo texto é carregado automaticamente (ver handleNewTextNeeded)
-  let pool = TEXTOS.map((t, i) => ({t, i}));
-  if (excludeIndex !== undefined) pool = pool.filter(x => x.i !== excludeIndex);
-  const picked = pool[Math.floor(Math.random() * pool.length)];
-  state.lastTextIndex = picked.i;
-  let texto = picked.t;
-
-  texto = texto
-    .replace(/[.,!?;:""«»]/g, '')
-    .replace(/\s{2,}/g, ' ')
-    .trim().toLowerCase();
-  return texto.split(' ').filter(w => w.length > 0);
 }
 
 function renderWords() {
@@ -1023,6 +1359,7 @@ function _updateParaCounter() {
   });
 })();
 // ── Boot ───────────────────────────────────────
+initSocket();
 const savedTheme = localStorage.getItem('digita-theme') || 'dark';
 applyTheme(savedTheme);
 checkAPI();

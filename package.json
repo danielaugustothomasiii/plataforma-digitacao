@@ -1,0 +1,28 @@
+{
+  "name": "plataforma-digita",
+  "version": "1.0.0",
+  "description": "<<<<<<< HEAD\r # ⌨️ Digita — Teste de Digitação",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^12.10.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielaugustothomasiii/plataforma-digitacao.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danielaugustothomasiii/plataforma-digitacao/issues"
+  },
+  "homepage": "https://github.com/danielaugustothomasiii/plataforma-digitacao#readme"
+}
