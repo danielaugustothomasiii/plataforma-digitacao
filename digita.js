@@ -604,12 +604,110 @@ function handleInput(e) {
 
 function handleKeydown(e) {
   if (e.key === 'Tab') { e.preventDefault(); init(false); focusInput(); return; }
-  if (e.key === 'Backspace' && typingInput.value.length === 0 && state.wordIndex > 0) {
-    state.wordIndex--;
-    typingInput.value = '';
-    state.charIndex   = 0;
-    unmarkWord(state.wordIndex);
-    updateCursor();
+
+  if (e.key === 'Enter') {
+    // ... código do Enter que já existe
+  }
+
+  // ── MODO ESTRITO: intercepta qualquer caractere ──
+  if (!state.finished && e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    e.preventDefault(); // impede o input de receber o valor diretamente
+
+    const currentWord = state.words[state.wordIndex];
+    if (!currentWord) return;
+    if (!state.started && e.key.trim().length > 0) startTest();
+
+    const expected = currentWord[state.charIndex];
+
+    if (e.key === expected) {
+      // ✅ Letra correta — avança normalmente
+      state.keystrokes++;
+      state.charIndex++;
+      state.correctChars++;
+
+      // Marca a letra como correta visualmente
+      const wordEls = wordsContainer.querySelectorAll('.word');
+      const letters  = wordEls[state.wordIndex]?.querySelectorAll('.letter');
+      if (letters && letters[state.charIndex - 1]) {
+        letters[state.charIndex - 1].classList.add('correct');
+        letters[state.charIndex - 1].classList.remove('cursor', 'blink-error');
+      }
+
+      // Palavra completa → simula o espaço
+      if (state.charIndex >= currentWord.length) {
+        // aguarda o espaço para confirmar (mantém comportamento original)
+      }
+
+      updateCursor();
+      updateStats(true);
+
+    } else if (e.key === ' ') {
+      // Espaço: só confirma se a palavra estiver completa e sem erro pendente
+      if (state.charIndex < currentWord.length) {
+        shakeBox();
+        return;
+      }
+      // Confirma a palavra
+      markWord(state.wordIndex, currentWord);
+      state.totalTyped  += currentWord.length + 1;
+      state.keystrokes  += 1;
+      state.liveErrors   = 0;
+      state.wordIndex++;
+      state.charIndex    = 0;
+      typingInput.value  = '';
+
+      if (state.wordIndex >= state.words.length) {
+        state.currentPara++;
+        if (state.parasTotal !== 'inf' && state.currentPara > state.parasTotal) {
+          finishTest(); return;
+        }
+        handleNewTextNeeded();
+      } else {
+        updateCursor();
+        updateStats(true);
+      }
+
+    } else {
+      // ❌ Letra errada — trava e dá feedback
+      state.keyErrors++;
+
+      const wordEls = wordsContainer.querySelectorAll('.word');
+      const letters  = wordEls[state.wordIndex]?.querySelectorAll('.letter');
+      if (letters && letters[state.charIndex]) {
+        const letra = letters[state.charIndex];
+
+        // Remove classes anteriores para reiniciar a animação
+        letra.classList.remove('wrong-shake');
+        void letra.offsetWidth; // força reflow para reiniciar o animation
+
+        letra.classList.add('wrong-shake');
+        setTimeout(() => letra.classList.remove('wrong-shake'), 500);
+      }
+
+      shakeBox();
+    }
+
+    return;
+  }
+
+  // Backspace ainda funciona normalmente para voltar palavras
+  if (e.key === 'Backspace') {
+    if (state.charIndex > 0) {
+      // Volta um caractere dentro da palavra
+      state.charIndex--;
+      const wordEls = wordsContainer.querySelectorAll('.word');
+      const letters  = wordEls[state.wordIndex]?.querySelectorAll('.letter');
+      if (letters && letters[state.charIndex]) {
+        letters[state.charIndex].classList.remove('correct', 'incorrect', 'cursor');
+      }
+      updateCursor();
+    } else if (state.wordIndex > 0) {
+      // Volta para a palavra anterior
+      state.wordIndex--;
+      state.charIndex = 0;
+      unmarkWord(state.wordIndex);
+      updateCursor();
+    }
   }
 }
 
