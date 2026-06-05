@@ -211,18 +211,18 @@ function _bumpStat(id, val) {
 }
 
 function renderRanking() {
-  if (rankActiveTab === 'alltime')     renderTableAlltime();
-  else if (rankActiveTab === 'today')  renderTableToday();
-  else                                 renderFeedRecent();
+  if (rankActiveTab === 'alltime')    renderTableAlltime();
+  else if (rankActiveTab === 'today') renderTableToday();
+  else                                renderFeedRecent();
 }
 
 function renderTableAlltime() {
   const body   = $('bodyAlltime');
-  const rows   = rankingData.allTime || [];
+  const rows   = applyModeFilter(rankingData.allTime || []);
   const maxWpm = rows.length ? rows[0].wpm : 1;
 
   if (!rows.length) {
-    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado ainda. Seja o primeiro! 🏆</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado para este modo ainda.</td></tr>';
     return;
   }
 
@@ -242,11 +242,11 @@ function renderTableAlltime() {
 
 function renderTableToday() {
   const body   = $('bodyToday');
-  const rows   = rankingData.today || [];
+  const rows   = applyModeFilter(rankingData.today || []);
   const maxWpm = rows.length ? rows[0].wpm : 1;
 
   if (!rows.length) {
-    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado hoje ainda. Comece agora! 🚀</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" class="rank-empty">Nenhum resultado para este modo hoje.</td></tr>';
     return;
   }
 
@@ -266,10 +266,10 @@ function renderTableToday() {
 
 function renderFeedRecent() {
   const feed  = $('rankFeed');
-  const items = rankingData.recent || [];
+  const items = applyModeFilter(rankingData.recent || []);
 
   if (!items.length) {
-    feed.innerHTML = '<div class="rank-empty">Nenhuma atividade recente.</div>';
+    feed.innerHTML = '<div class="rank-empty">Nenhuma atividade recente para este modo.</div>';
     return;
   }
 
@@ -317,10 +317,6 @@ function accCell(acc) {
   return `<span class="rank-acc-val ${cls}">${acc}%</span>`;
 }
 
-function modeBadge(mode) {
-  return `<span class="rank-mode-badge">${escHtml(mode || '—')}</span>`;
-}
-
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -349,6 +345,27 @@ function fmtDateTime(iso) {
 
 // ── Abas internas do ranking ───────────────────
 (function initRankTabs() {
+ let rankModeFilter = 'all';
+
+function applyModeFilter(rows) {
+  if (rankModeFilter === 'all') return rows;
+  return rows.filter(r => {
+    const m = (r.mode || '').toLowerCase();
+    if (rankModeFilter === 'complete') return m === 'complete' || m === 'texto-completo';
+    return m === rankModeFilter;
+  });
+}
+
+(function initRankFilter() {
+  document.querySelectorAll('.rank-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rank-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      rankModeFilter = btn.dataset.filter;
+      renderRanking();
+    });
+  });
+})();
   document.querySelectorAll('.rank-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
@@ -404,6 +421,7 @@ const pages = {
   dicas:   $('pageDicas'),
   sobre:   $('pageSobre'),
   ranking: $('pageRanking'),
+  modo:    $('pageModo'), 
 };
 
 // Controle de som por página
@@ -1332,7 +1350,34 @@ function _updateParaCounter() {
     });
   });
 })();
+// ══════════════════════════════════════════════
+// PÁGINA: MODOS — botões de seleção
+// ══════════════════════════════════════════════
+(function initModoCards() {
+  document.querySelectorAll('.modo-card').forEach(card => {
+    const btn     = card.querySelector('.modo-select-btn');
+    const val     = card.dataset.modeVal;
+    if (!btn || !val) return;
 
+    btn.addEventListener('click', () => {
+      // Atualiza o select no header para ficar sincronizado
+      const modeSelect = $('modeSelect');
+      if (modeSelect) {
+        modeSelect.value = val;
+        modeSelect.dispatchEvent(new Event('change'));
+      }
+
+      // Destaca o card ativo
+      document.querySelectorAll('.modo-card').forEach(c => c.classList.remove('modo-card--active'));
+      card.classList.add('modo-card--active');
+
+      // Vai para a página inicial e começa
+      showPage('home');
+      setTimeout(focusInput, 80);
+    });
+  });
+
+})();
 // ══════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════
@@ -1382,3 +1427,31 @@ applyTheme(localStorage.getItem('digita-theme') || 'dark');
     _renderHeaderAvatar();
   }
 })();
+function modeLabel(mode) {
+  const map = {
+    '15s':            '⚡ Sprint',
+    '30s':            '🔥 Rápido',
+    '60s':            '🎯 Clássico',
+    '900s':           '💪 Resistência',
+    '1200s':          '🏋️ Maratona',
+    '1800s':          '🏋️ Maratona',
+    'complete':       '📖 Texto Completo',
+    'texto-completo': '📖 Texto Completo',
+    'custom':         '∞ Sem Tempo',
+  };
+  return map[mode] || mode || '—';
+}
+
+function modeBadge(mode) {
+  return `<span class="rank-mode-badge">${escHtml(modeLabel(mode))}</span>`;
+}
+let rankModeFilter = 'all';
+
+function applyModeFilter(rows) {
+  if (rankModeFilter === 'all') return rows;
+  return rows.filter(r => {
+    const m = (r.mode || '').toLowerCase();
+    if (rankModeFilter === 'complete') return m === 'complete' || m === 'texto-completo';
+    return m === rankModeFilter;
+  });
+}

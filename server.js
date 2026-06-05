@@ -73,9 +73,12 @@ const upsertDailyBest = db.prepare(`
 `);
 
 const getAllTimeTop = db.prepare(`
-  SELECT name, MAX(wpm) as wpm, accuracy, mode, created_at
-  FROM results
-  GROUP BY name
+  SELECT name, wpm, accuracy, mode, created_at
+  FROM (
+    SELECT name, MAX(wpm) as wpm, accuracy, mode, created_at
+    FROM results
+    GROUP BY name, mode
+  )
   ORDER BY wpm DESC
   LIMIT 50
 `);
@@ -96,7 +99,15 @@ const getModeTop = db.prepare(`
   ORDER BY wpm DESC
   LIMIT 50
 `);
-
+const getStatsByMode = db.prepare(`
+  SELECT
+    COUNT(*)              as total_tests,
+    COUNT(DISTINCT name)  as total_players,
+    MAX(wpm)              as record_wpm,
+    ROUND(AVG(wpm))       as avg_wpm
+  FROM results
+  WHERE mode = ?
+`);
 const getRecentResults = db.prepare(`
   SELECT name, wpm, accuracy, mode, created_at
   FROM results
@@ -143,12 +154,38 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // ── Helpers ────────────────────────────────────
-function getRankingPayload() {
+function getRankingPayload(modeFilter) {
+  const allTime = modeFilter
+    ? getModeTop.all(modeFilter)
+    : getAllTimeTop.all();
+
+  const today = modeFilter
+    ? db.prepare(`
+        SELECT name, wpm, accuracy, mode, created_at
+        FROM daily_best
+        WHERE day = date('now','localtime') AND mode = ?
+        ORDER BY wpm DESC LIMIT 50
+      `).all(modeFilter)
+    : getTodayTop.all();
+
+  const recent = modeFilter
+    ? db.prepare(`
+        SELECT name, wpm, accuracy, mode, created_at
+        FROM results
+        WHERE mode = ?
+        ORDER BY id DESC LIMIT 20
+      `).all(modeFilter)
+    : getRecentResults.all();
+
+  const stats = modeFilter
+    ? getStatsByMode.get(modeFilter)
+    : getStats.get();
+
   return {
-    allTime  : getAllTimeTop.all(),
-    today    : getTodayTop.all(),
-    recent   : getRecentResults.all(),
-    stats    : getStats.get(),
+    allTime,
+    today,
+    recent,
+    stats,
     userCount: countUsers.get().total,
     maxUsers : MAX_USERS,
   };
@@ -228,7 +265,7 @@ app.get('/api/ranking', (_req, res) => {
 
 app.get('/api/ranking/mode/:mode', (req, res) => {
   try {
-    res.json(getModeTop.all(req.params.mode));
+    res.json(getRankingPayload(req.params.mode));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
