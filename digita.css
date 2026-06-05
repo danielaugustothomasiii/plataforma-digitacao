@@ -113,7 +113,7 @@ body {
       content: "";
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75); /* aumenta ou diminui */
+  background: rgba(0, 0, 0, 0.75);
   z-index: -1;
 }
 
@@ -148,19 +148,6 @@ body::after {
   to   { transform: translate(70px, 50px) scale(1.12); }
 }
 
-.blob-mid {
-  position: fixed;
-  width: 420px; height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(192,57,43,0.10), transparent 70%);
-  top: 45%; left: 45%;
-  transform: translate(-50%,-50%);
-  filter: blur(70px);
-  pointer-events: none;
-  z-index: 0;
-  animation: floatA 11s ease-in-out infinite alternate;
-}
-[data-theme="light"] .blob-mid { background: radial-gradient(circle, rgba(192,57,43,0.06), transparent 70%); }
 
 /* ══════════════════════════════════════════════
    HEADER
@@ -775,7 +762,7 @@ header {
 .page-tag {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.70rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--blue-main);
@@ -944,7 +931,7 @@ header {
   display: flex;
   align-items: center;
   gap: 18px;
-  background: rgba(192, 57, 43, 0.07);
+  background: rgb(27, 20, 19);
   border: 1px solid rgba(192, 57, 43, 0.22);
   border-radius: 16px;
   padding: 22px 28px;
