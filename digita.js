@@ -1,74 +1,74 @@
 // ══════════════════════════════════════════════
-// BANCO DE TEXTOS — por tamanho
+// BANCO DE TEXTOS — por tamanho (Com Acentuação e Pontuação)
 // ══════════════════════════════════════════════
 
 const TEXTOS_CURTOS = [
-  "o primeiro mouse foi feito de madeira",
-  "ada lovelace escreveu o primeiro algoritmo da historia",
-  "o google nasceu numa garagem em menlo park california",
-  "o primeiro email foi enviado em 1971 por ray tomlinson",
-  "python foi criada para ser simples e legivel",
-  "o wifi significa wireless fidelity",
-  "o primeiro virus de computador se chamava creeper",
-  "a internet nasceu como uma rede militar chamada arpanet",
-  "o bit e a menor unidade de informacao digital",
-  "dennis ritchie criou a linguagem c nos anos setenta",
-  "o primeiro computador pessoal foi o altair 8800",
-  "linux foi criado por linus torvalds em 1991",
-  "o html foi inventado por tim berners lee em 1991",
-  "um byte tem oito bits de informacao",
-  "grace hopper encontrou um inseto causando erro num computador",
-  "o primeiro disco rigido da ibm pesava mais de uma tonelada",
-  "javascript foi criado em apenas dez dias por brendan eich",
-  "o primeiro computador eletronico se chamava eniac",
-  "o cd rom foi lancado comercialmente em 1982",
-  "alan turing e considerado o pai da ciencia da computacao",
-  "o primeiro smartphone foi lancado pela apple em 2007",
-  "ram significa memoria de acesso aleatorio em ingles",
-  "o processador e o cerebro do computador",
-  "sql foi criado para consultar bancos de dados relacionais",
-  "o usb foi inventado para padronizar conexoes de perifericos",
+  "O primeiro mouse foi feito de madeira.",
+  "Ada Lovelace escreveu o primeiro algoritmo da história.",
+  "O Google nasceu numa garagem em Menlo Park, Califórnia.",
+  "O primeiro e-mail foi enviado em 1971 por Ray Tomlinson.",
+  "Python foi criada para ser simples e legível.",
+  "O Wi-Fi significa \"Wireless Fidelity\".",
+  "O primeiro vírus de computador se chamava Creeper.",
+  "A internet nasceu como uma rede militar chamada Arpanet.",
+  "O bit é a menor unidade de informação digital.",
+  "Dennis Ritchie criou a linguagem C nos anos setenta.",
+  "O primeiro computador pessoal foi o Altair 8800.",
+  "Linux foi criado por Linus Torvalds em 1991.",
+  "O HTML foi inventado por Tim Berners-Lee em 1991.",
+  "Um byte tem oito bits de informação.",
+  "Grace Hopper encontrou um inseto causando erro num computador.",
+  "O primeiro disco rígido da IBM pesava mais de uma tonelada.",
+  "JavaScript foi criado em apenas dez dias por Brendan Eich.",
+  "O primeiro computador eletrônico se chamava ENIAC.",
+  "O CD-ROM foi lançado comercialmente em 1982.",
+  "Alan Turing é considerado o pai da ciência da computação.",
+  "O primeiro smartphone foi lançado pela Apple em 2007.",
+  "RAM significa Memória de Acesso Aleatório, em inglês.",
+  "O processador é o cérebro do computador.",
+  "SQL foi criado para consultar bancos de dados relacionais.",
+  "O USB foi inventado para padronizar conexões de periféricos.",
 ];
 
 const TEXTOS_MEDIOS = [
-  "o eniac foi o primeiro computador eletronico de uso geral concluido em 1945. ocupava uma sala inteira e pesava mais de vinte e sete toneladas. sua velocidade era de cinco mil operacoes por segundo algo impensavel para a epoca mas ridiculo perto dos processadores modernos.",
-  "alan turing propôs em 1950 o famoso teste que leva seu nome. a ideia era simples se uma maquina conversasse com um humano sem que ele percebesse que era uma maquina entao ela poderia ser considerada inteligente. o conceito ainda e debatido na inteligencia artificial moderna.",
-  "grace hopper acreditava que computadores deveriam entender palavras em ingles e nao apenas codigos binarios. ela criou o primeiro compilador da historia em 1952. seu trabalho levou ao desenvolvimento do cobol linguagem ainda usada em sistemas bancarios ao redor do mundo.",
-  "o unix foi criado por ken thompson e dennis ritchie nos laboratorios bell em 1969. seu design simples e modular influenciou praticamente todos os sistemas operacionais modernos. linux e macOS sao herdeiros diretos dos principios estabelecidos pelo unix.",
-  "a lei de moore diz que o numero de transistores num chip dobra aproximadamente a cada dois anos. gordon moore fez essa observacao em 1965 e ela se manteve verdadeira por decadas. hoje os transistores tem apenas alguns atomos de espessura o que aproxima os limites fisicos da computacao.",
-  "o primeiro videogame comercial foi o pong lancado pela atari em 1972. dois quadrados e um ponto na tela criaram uma industria bilionaria. hoje os jogos geram mais receita do que o cinema e a musica juntos no mercado de entretenimento global.",
-  "a criptografia e a ciencia de proteger informacoes transformando dados legiveis em codigo. ela existe ha milhares de anos mas ganhou nova relevancia na era digital. toda comunicacao segura na internet depende de algoritmos criptograficos modernos para proteger dados sensiveis.",
-  "os bancos de dados relacionais foram propostos por edgar codd em 1970 num artigo cientifico revolucionario. a ideia de organizar dados em tabelas com relacoes entre elas transformou como sistemas armazenam informacao. oracle ibm e microsoft construiram imperios sobre esse conceito.",
-  "o conceito de nuvem computacional existe desde os anos sessenta mas popularizou em 2006 quando a amazon lancou o aws. a ideia e simples alugar poder computacional pela internet em vez de comprar hardware fisico. hoje a nuvem sustenta a infraestrutura da maioria dos servicos digitais.",
-  "git foi criado por linus torvalds em 2005 apos uma disputa com a empresa do sistema anterior. em apenas dias ele construiu uma ferramenta que revolucionou como desenvolvedores colaboram em codigo. hoje o github que usa git hospeda mais de trezentos milhoes de repositorios publicos.",
-  "a primeira rede de computadores que conectou universidades americanas foi a arpanet em 1969. a primeira mensagem enviada foi a palavra login mas o sistema travou apos as duas primeiras letras. mesmo assim aquele momento marcou o inicio do que viria a ser a internet.",
-  "um algoritmo e uma sequencia de passos para resolver um problema. a palavra vem do nome do matematico persa al-khuarizmi que viveu no seculo nono. seus trabalhos sobre algebra e aritmetica chegaram a europa e influenciaram a matematica e a computacao para sempre.",
-  "o processador intel 4004 lancado em 1971 foi o primeiro microprocessador comercial da historia. ele tinha apenas 2300 transistores e rodava a 740 kilohertz. um smartphone moderno tem bilhoes de transistores e processa informacoes em velocidades bilhoes de vezes maiores.",
-  "phishing e uma tecnica de golpe onde criminosos se passam por entidades confiaveis para roubar dados. o nome vem do ingles fishing ou seja pescar vitimas. e a forma mais comum de ataque cibernetico e afeta milhoes de pessoas e empresas ao redor do mundo todo ano.",
-  "o codigo aberto ou open source e um modelo onde o codigo fonte e disponibilizado publicamente. projetos como linux firefox e vscode mostram que comunidades podem criar software de qualidade superior ao proprietario. a filosofia open source transformou como o mundo desenvolve e distribui software.",
-  "ram e a memoria de acesso aleatorio onde o computador guarda dados em uso temporariamente. quanto mais ram um sistema tem mais programas pode rodar ao mesmo tempo sem lentidao. ao desligar o computador tudo que estava na ram e apagado diferente do disco rigido que persiste.",
-  "o protocolo http define como navegadores e servidores web se comunicam na internet. quando voce digita um endereco no navegador ele envia uma requisicao http ao servidor. o servidor responde com o codigo html da pagina que o navegador interpreta e exibe na tela.",
-  "inteligencia artificial e um campo da computacao que busca criar sistemas capazes de realizar tarefas que normalmente exigem inteligencia humana. reconhecimento de voz visao computacional e traducao automatica sao exemplos praticos. o aprendizado de maquina e a principal tecnica usada hoje.",
-  "o bluetooth recebeu esse nome em homenagem ao rei dinamarques harald bluetooth que unificou tribos escandinaves. a tecnologia une dispositivos sem fio em curtas distancias. criada em 1994 pela ericsson hoje esta presente em fones teclados mouses e inumeros dispositivos do cotidiano.",
-  "compiladores sao programas que traduzem codigo escrito por humanos em instrucoes que o processador entende. sem compiladores cada programador precisaria escrever codigo diretamente em linguagem de maquina. grace hopper provou que computadores podiam fazer essa traducao automaticamente.",
+  "O ENIAC foi o primeiro computador eletrônico de uso geral, concluído em 1945. Ocupava uma sala inteira e pesava mais de vinte e sete toneladas. Sua velocidade era de cinco mil operações por segundo, algo impensável para a época, mas ridículo perto dos processadores modernos.",
+  "Alan Turing propôs em 1950 o famoso teste que leva seu nome. A ideia era simples: se uma máquina conversasse com um humano sem que ele percebesse que era uma máquina, então ela poderia ser considerada inteligente. O conceito ainda é debatido na inteligência artificial moderna.",
+  "Grace Hopper acreditava que computadores deveriam entender palavras em inglês e não apenas códigos binários. Ela criou o primeiro compilador da história em 1952. Seu trabalho levou ao desenvolvimento do COBOL, linguagem ainda usada em sistemas bancários ao redor do mundo.",
+  "O Unix foi criado por Ken Thompson e Dennis Ritchie nos Laboratórios Bell em 1969. Seu design simples e modular influenciou praticamente todos os sistemas operacionais modernos. Linux e macOS são herdeiros diretos dos princípios estabelecidos pelo Unix.",
+  "A Lei de Moore diz que o número de transistores num chip dobra aproximadamente a cada dois anos. Gordon Moore fez essa observação em 1965 e ela se manteve verdadeira por décadas. Hoje, os transistores têm apenas alguns átomos de espessura, o que aproxima os limites físicos da computação.",
+  "O primeiro videogame comercial foi o Pong, lançado pela Atari em 1972. Dois quadrados e um ponto na tela criaram uma indústria bilionária. Hoje, os jogos geram mais receita do que o cinema e a música juntos no mercado de entretenimento global.",
+  "A criptografia é a ciência de proteger informações, transformando dados legíveis em código. Ela existe há milhares de anos, mas ganhou nova relevância na era digital. Toda comunicação segura na internet depende de algoritmos criptográficos modernos para proteger dados sensíveis.",
+  "Os bancos de dados relacionais foram propostos por Edgar Codd em 1970, num artigo científico revolucionário. A ideia de organizar dados em tabelas com relações entre elas transformou como sistemas armazenam informação. Oracle, IBM e Microsoft construíram impérios sobre esse conceito.",
+  "O conceito de nuvem computacional existe desde os anos sessenta, mas popularizou-se em 2006, quando a Amazon lançou o AWS. A ideia é simples: alugar poder computacional pela internet em vez de comprar hardware físico. Hoje, a nuvem sustenta a infraestrutura da maioria dos serviços digitais.",
+  "O Git foi criado por Linus Torvalds em 2005, após uma disputa com a empresa do sistema anterior. Em apenas dias, ele construiu uma ferramenta que revolucionou como desenvolvedores colaboram em código. Hoje, o GitHub, que usa Git, hospeda mais de trezentos milhões de repositórios públicos.",
+  "A primeira rede de computadores que conectou universidades americanas foi a Arpanet, em 1969. A primeira mensagem enviada foi a palavra \"login\", mas o sistema travou após as duas primeiras letras. Mesmo assim, aquele momento marcou o início do que viria a ser a internet.",
+  "Um algoritmo é uma sequência de passos para resolver um problema. A palavra vem do nome do matemático persa Al-Khwarizmi, que viveu no século nono. Seus trabalhos sobre álgebra e aritmética chegaram à Europa e influenciaram a matemática e a computação para sempre.",
+  "O processador Intel 4004, lançado em 1971, foi o primeiro microprocessador comercial da história. Ele tinha apenas 2300 transistores e rodava a 740 kilohertz. Um smartphone moderno tem bilhões de transistores e processa informações em velocidades bilhões de vezes maiores.",
+  "Phishing é uma técnica de golpe onde criminosos se passam por entidades confiáveis para roubar dados. O nome vem do inglês \"fishing\", ou seja, pescar vítimas. É a forma mais comum de ataque cibernético e afeta milhões de pessoas e empresas ao redor do mundo todo ano.",
+  "O código aberto, ou open source, é um modelo onde o código-fonte é disponibilizado publicamente. Projetos como Linux, Firefox e VS Code mostram que comunidades podem criar software de qualidade superior ao proprietário. A filosofia open source transformou como o mundo desenvolve e distribui software.",
+  "RAM é a memória de acesso aleatório onde o computador guarda dados em uso temporariamente. Quanto mais RAM um sistema tem, mais programas pode rodar ao mesmo tempo sem lentidão. Ao desligar o computador, tudo que estava na RAM é apagado, diferente do disco rígido que persiste.",
+  "O protocolo HTTP define como navegadores e servidores web se comunicam na internet. Quando você digita um endereço no navegador, ele envia uma requisição HTTP ao servidor. O servidor responde com o código HTML da página, que o navegador interpreta e exibe na tela.",
+  "Inteligência artificial é um campo da computação que busca criar sistemas capazes de realizar tarefas que normalmente exigem inteligência humana. Reconhecimento de voz, visão computacional e tradução automática são exemplos práticos. O aprendizado de máquina é a principal técnica usada hoje.",
+  "O Bluetooth recebeu esse nome em homenagem ao rei dinamarquês Harald Bluetooth, que unificou tribos escandinavas. A tecnologia une dispositivos sem fio em curtas distâncias. Criada em 1994 pela Ericsson, hoje está presente em fones, teclados, mouses e inúmeros dispositivos do cotidiano.",
+  "Compiladores são programas que traduzem código escrito por humanos em instruções que o processador entende. Sem compiladores, cada programador precisaria escrever código diretamente em linguagem de máquina. Grace Hopper provou que computadores podiam fazer essa tradução automaticamente.",
 ];
 
 const TEXTOS_LONGOS = [
-  "python foi criada por guido van rossum e lancada em 1991 com foco em legibilidade e simplicidade. sua sintaxe limpa permite que iniciantes aprendam logica de programacao sem se perder em simbolos complexos. hoje e uma das linguagens mais usadas no mundo para ciencia de dados inteligencia artificial e automacao. grandes empresas como google netflix e spotify usam python em partes criticas de seus sistemas. a comunidade enorme e o ecossistema rico de bibliotecas fazem dela uma escolha natural para projetos de qualquer tamanho.",
-  "javascript nasceu em apenas dez dias nas maos de brendan eich em 1995 para tornar paginas web interativas. o que comecou como um script simples de navegador se tornou uma linguagem completa capaz de rodar tanto no frontend quanto no backend com o node. nenhuma outra linguagem esta tao presente no cotidiano da internet. frameworks como react angular e vue transformaram como interfaces sao construidas. hoje javascript e a linguagem mais popular do mundo segundo pesquisas anuais com desenvolvedores de todo o planeta.",
-  "c foi desenvolvida por dennis ritchie nos laboratorios bell na decada de 1970 e moldou praticamente tudo que veio depois. o proprio sistema operacional unix foi reescrito em c tornando possivel a portabilidade entre diferentes maquinas. ate hoje sistemas embarcados kernels e drivers sao escritos em c por seu controle preciso sobre o hardware. linguagens como c++ java e c# sao descendentes diretos do c. aprender c ainda hoje e considerado fundamental para entender como computadores realmente funcionam por baixo das abstracoes.",
-  "java foi apresentada pela sun microsystems em 1995 com a promessa de escreva uma vez execute em qualquer lugar. sua maquina virtual permite que o mesmo codigo rode em windows linux e mac sem modificacoes. por decadas dominou o desenvolvimento corporativo e ainda e a base de milhoes de aplicacoes android. a robustez do ecossistema java e seu forte sistema de tipos atraem empresas que precisam de confiabilidade. bancos seguradoras e governos ao redor do mundo dependem de sistemas java que rodam ininterruptamente ha anos.",
-  "rust foi projetada pela mozilla para substituir c e c++ em situacoes onde seguranca de memoria e critica. seu sistema de ownership elimina erros como ponteiros nulos e race conditions em tempo de compilacao sem precisar de um coletor de lixo. desenvolvedores que aprendem rust costumam dizer que a linguagem os ensina a pensar diferente. o sistema operacional android ja incorpora componentes escritos em rust. a microsoft esta reescrevendo partes do windows em rust para reduzir vulnerabilidades de seguranca.",
-  "ada lovelace e considerada a primeira programadora da historia por ter escrito em 1843 um algoritmo para a maquina analitica de charles babbage. ela percebeu que a maquina poderia ir alem de calculos numericos e manipular qualquer simbolo seguindo regras. sua visao estava um seculo a frente do seu tempo. a linguagem de programacao ada criada para o departamento de defesa americano foi batizada em sua homenagem. seu trabalho so foi reconhecido devidamente no seculo vinte quando a computacao comecou a se desenvolver de verdade.",
-  "alan turing desenvolveu durante a segunda guerra mundial a maquina que quebrou o codigo enigma usado pelos nazistas. seu trabalho teorico sobre maquinas de estado finito e computabilidade lancou as bases da ciencia da computacao moderna. o premio turing concedido anualmente pela acm leva seu nome como a maior honraria da area. apesar de seus feitos turing foi perseguido pelo governo britanico por sua orientacao sexual. em 2013 a rainha elizabeth concedeu-lhe um perdao postume reconhecendo a injustica historica cometida contra ele.",
-  "grace hopper criou o primeiro compilador da historia em 1952 ao perceber que programadores perdiam tempo escrevendo instrucoes em linguagem de maquina. ela acreditava que computadores deveriam entender palavras em ingles e nao apenas zeros e uns. seu trabalho levou ao desenvolvimento do cobol linguagem que ainda processa trilhoes de transacoes bancarias hoje. ela tambem popularizou o termo bug depois de encontrar uma mariposa real dentro de um computador que causava falhas. grace hopper serviu na marinha americana e chegou ao posto de contra-almirante.",
-  "linus torvalds tinha apenas 21 anos quando publicou em 1991 numa lista de emails que estava criando um sistema operacional por hobby. o que parecia um projeto pessoal cresceu para se tornar o linux o kernel mais usado no mundo presente em servidores smartphones e supercomputadores. torvalds provou que software colaborativo e aberto pode superar qualquer corporacao. hoje o linux roda em mais de 90 por cento dos servidores da internet e em todos os supercomputadores da lista top 500. o android que alimenta a maioria dos smartphones do mundo tambem e baseado no kernel linux.",
-  "tim berners-lee propôs em 1989 enquanto trabalhava no cern um sistema de hipertexto para compartilhar informacoes entre pesquisadores. seu chefe na epoca anotou no projeto a mensagem vaga mas empolgante. tres anos depois a world wide web estava no ar e o mundo jamais voltaria a ser o mesmo. berners-lee recusou patentear a web deixando-a livre para todos. hoje ele lidera o movimento pela web aberta lutando contra a concentracao de poder nas maos de poucas empresas de tecnologia que transformaram sua invencao numa ferramenta de vigilancia e monopolio.",
-  "um algoritmo e uma sequencia finita de instrucoes bem definidas para resolver um problema ou realizar uma tarefa. assim como uma receita de bolo descreve passo a passo como produzir um resultado os algoritmos guiam o computador atraves de operacoes logicas. a elegancia de um bom algoritmo esta em resolver o problema usando o menor numero de passos possivel. algoritmos de busca ordenacao e compressao estao presentes em quase todo software moderno. entender algoritmos e considerado uma das habilidades mais fundamentais para qualquer desenvolvedor de software.",
-  "programacao orientada a objetos organiza o codigo em torno de entidades chamadas objetos que combinam dados e comportamentos. um carro por exemplo pode ser um objeto com atributos como cor e velocidade e metodos como acelerar e frear. essa forma de pensar aproxima o codigo da maneira como percebemos o mundo real. linguagens como java python e c++ suportam orientacao a objetos. o paradigma facilita a reutilizacao de codigo atraves de heranca e polimorfismo reduzindo duplicacao e tornando sistemas grandes mais faceis de manter e evoluir.",
-  "controle de versao com git permite que desenvolvedores registrem cada mudanca no codigo como um snapshot no tempo. e possivel voltar a qualquer ponto do historico comparar versoes e trabalhar em paralelo sem medo de perder trabalho. o github transformou o git numa plataforma social onde milhoes colaboram em projetos abertos ao redor do mundo. pull requests code reviews e issues sao praticas que o github popularizou e que hoje sao padroes na industria. o git foi criado por linus torvalds em apenas dias como alternativa a um sistema proprietario que passou a cobrar pelo uso.",
-  "apis sao interfaces que permitem que diferentes sistemas se comuniquem sem precisar conhecer os detalhes internos um do outro. quando um aplicativo de clima exibe a previsao do tempo ele provavelmente esta consultando uma api meteorologica em segundo plano. elas sao os blocos de construcao que tornam possivel a internet interconectada que usamos hoje. apis rest sao o padrao mais comum usando http para trocar dados em formato json. a economia de apis movimenta bilhoes de dolares com empresas cobrando por acesso a seus dados e servicos atraves delas.",
-  "testes automatizados sao como uma rede de seguranca que garante que novas mudancas nao quebrem o que ja funcionava. a pratica de escrever o teste antes do codigo chamada desenvolvimento orientado a testes obriga o programador a pensar no comportamento esperado antes de implementar. times que testam bem dormem melhor a noite. testes unitarios de integracao e end to end cobrem diferentes niveis do sistema. grandes empresas como google e microsoft investem enormes recursos em infraestrutura de testes pois o custo de um bug em producao e muito maior do que preveni-lo.",
+  "Python foi criada por Guido van Rossum e lançada em 1991 com foco em legibilidade e simplicidade. Sua sintaxe limpa permite que iniciantes aprendam lógica de programação sem se perder em símbolos complexos. Hoje, é uma das linguagens mais usadas no mundo para ciência de dados, inteligência artificial e automação. Grandes empresas como Google, Netflix e Spotify usam Python em partes críticas de seus sistemas. A comunidade enorme e o ecossistema rico de bibliotecas fazem dela uma escolha natural para projetos de qualquer tamanho.",
+  "JavaScript nasceu em apenas dez dias nas mãos de Brendan Eich em 1995 para tornar páginas web interativas. O que começou como um script simples de navegador se tornou uma linguagem completa, capaz de rodar tanto no frontend quanto no backend com o Node. Nenhuma outra linguagem está tão presente no cotidiano da internet. Frameworks como React, Angular e Vue transformaram como interfaces são construídas. Hoje, JavaScript é a linguagem mais popular do mundo segundo pesquisas anuais com desenvolvedores de todo o planeta.",
+  "C foi desenvolvida por Dennis Ritchie nos Laboratórios Bell na década de 1970 e moldou praticamente tudo que veio depois. O próprio sistema operacional Unix foi reescrito em C, tornando possível a portabilidade entre diferentes máquinas. Até hoje, sistemas embarcados, kernels e drivers são escritos em C por seu controle preciso sobre o hardware. Linguagens como C++, Java e C# são descendentes diretos do C. Aprender C ainda hoje é considerado fundamental para entender como computadores realmente funcionam por baixo das abstrações.",
+  "Java foi apresentada pela Sun Microsystems em 1995 com a promessa de \"escreva uma vez, execute em qualquer lugar\". Sua máquina virtual permite que o mesmo código rode em Windows, Linux e Mac sem modificações. Por décadas dominou o desenvolvimento corporativo e ainda é a base de milhões de aplicações Android. A robustez do ecossistema Java e seu forte sistema de tipos atraem empresas que precisam de confiabilidade. Bancos, seguradoras e governos ao redor do mundo dependem de sistemas Java que rodam ininterruptamente há anos.",
+  "Rust foi projetada pela Mozilla para substituir C e C++ em situações onde segurança de memória é crítica. Seu sistema de ownership elimina erros como ponteiros nulos e race conditions em tempo de compilação, sem precisar de um coletor de lixo. Desenvolvedores que aprendem Rust costumam dizer que a linguagem os ensina a pensar diferente. O sistema operacional Android já incorpora componentes escritos em Rust. A Microsoft está reescrevendo partes do Windows em Rust para reduzir vulnerabilidades de segurança.",
+  "Ada Lovelace é considerada a primeira programadora da história por ter escrito em 1843 um algoritmo para a máquina analítica de Charles Babbage. Ela percebeu que a máquina poderia ir além de cálculos numéricos e manipular qualquer símbolo seguindo regras. Sua visão estava um século à frente do seu tempo. A linguagem de programação Ada, criada para o Departamento de Defesa americano, foi batizada em sua homenagem. Seu trabalho só foi reconhecido devidamente no século vinte, quando a computação começou a se desenvolver de verdade.",
+  "Alan Turing desenvolveu durante a segunda guerra mundial a máquina que quebrou o código Enigma usado pelos nazistas. Seu trabalho teórico sobre máquinas de estado finito e computabilidade lançou as bases da ciência da computação moderna. O Prêmio Turing, concedido anualmente pela ACM, leva seu nome como a maior honraria da área. Apesar de seus feitos, Turing foi perseguido pelo governo britânico por sua orientação sexual. Em 2013, a Rainha Elizabeth concedeu-lhe um perdão póstumo, reconhecendo a injustiça histórica cometida contra ele.",
+  "Grace Hopper criou o primeiro compilador da história em 1952 ao perceber que programadores perdiam tempo escrevendo instruções em linguagem de máquina. Ela acreditava que computadores deveriam entender palavras em inglês e não apenas zeros e uns. Seu trabalho levou ao desenvolvimento do COBOL, linguagem que ainda processa trilhões de transações bancárias hoje. Ela também popularizou o termo bug depois de encontrar uma mariposa real dentro de um computador que causava falhas. Grace Hopper serviu na Marinha americana e chegou ao posto de contra-almirante.",
+  "Linus Torvalds tinha apenas 21 anos quando publicou em 1991, numa lista de e-mails, que estava criando um sistema operacional por hobby. O que parecia um projeto pessoal cresceu para se tornar o Linux, o kernel mais usado no mundo, presente em servidores, smartphones e supercomputadores. Torvalds provou que software colaborativo e aberto pode superar qualquer corporação. Hoje, o Linux roda em mais de 90 por cento dos servidores da internet e em todos os supercomputadores da lista TOP500. O Android, que alimenta a maioria dos smartphones do mundo, também é baseado no kernel Linux.",
+  "Tim Berners-Lee propôs em 1989, enquanto trabalhava no CERN, um sistema de hipertexto para compartilhar informações entre pesquisadores. Seu chefe na época anotou no projeto a mensagem \"vaga, mas empolgante\". Três anos depois, a World Wide Web estava no ar e o mundo jamais voltaria a ser o mesmo. Berners-Lee recusou patentear a web, deixando-a livre para todos. Hoje, ele lidera o movimento pela web aberta, lutando contra a concentração de poder nas mãos de poucas empresas de tecnologia que transformaram sua invenção numa ferramenta de vigilância e monopólio.",
+  "Um algoritmo é uma sequência finita de instruções bem definidas para resolver um problema ou realizar uma tarefa. Assim como uma receita de bolo descreve passo a passo como produzir um resultado, os algoritmos guiam o computador através de operações lógicas. A elegância de um bom algoritmo está em resolver o problema usando o menor número de passos possível. Algoritmos de busca, ordenação e compressão estão presentes em quase todo software moderno. Entender algoritmos é considerado uma das habilidades mais fundamentais para qualquer desenvolvedor de software.",
+  "Programação Orientada a Objetos organiza o código em torno de entidades chamadas objetos, que combinam dados e comportamentos. Um carro, por exemplo, pode ser um objeto com atributos como cor e velocidade, e métodos como acelerar e frear. Essa forma de pensar aproxima o código da maneira como percebemos o mundo real. Linguagens como Java, Python e C++ suportam orientação a objetos. O paradigma facilita a reutilização de código através de herança e polimorfismo, reduzindo duplicação e tornando sistemas grandes mais fáceis de manter e evoluir.",
+  "Controle de versão com Git permite que desenvolvedores registrem cada mudança no código como um snapshot no tempo. É possível voltar a qualquer ponto do histórico, comparar versões e trabalhar em paralelo sem medo de perder trabalho. O GitHub transformou o Git numa plataforma social onde milhões colaboram em projetos abertos ao redor do mundo. Pull requests, code reviews e issues são práticas que o GitHub popularizou e que hoje são padrões na indústria. O Git foi criado por Linus Torvalds em apenas dias como alternativa a um sistema proprietário que passou a cobrar pelo uso.",
+  "APIs são interfaces que permitem que diferentes sistemas se comuniquem sem precisar conhecer os detalhes internos um do outro. Quando um aplicativo de clima exibe a previsão do tempo, ele provavelmente está consultando uma API meteorológica em segundo plano. Elas são os blocos de construção que tornam possível a internet interconectada que usamos hoje. APIs REST são o padrão mais comum, usando HTTP para trocar dados em formato JSON. A economia de APIs movimenta bilhões de dólares, com empresas cobrando por acesso a seus dados e serviços através delas.",
+  "Testes automatizados são como uma rede de segurança que garante que novas mudanças não quebrem o que já funcionava. A prática de escrever o teste antes do código, chamada Desenvolvimento Orientado a Testes, obriga o programador a pensar no comportamento esperado antes de implementar. Times que testam bem dormem melhor à noite. Testes unitários, de integração e end-to-end cobrem diferentes níveis do sistema. Grandes empresas como Google e Microsoft investem enormes recursos em infraestrutura de testes, pois o custo de um bug em produção é muito maior do que preveni-lo.",
 ];
 
 // ══════════════════════════════════════════════
@@ -91,11 +91,10 @@ function generateWords(excludeIndex) {
   const picked = candidates[Math.floor(Math.random() * candidates.length)];
   state.lastTextIndex = picked.i;
 
+  // Mudança aqui: mantém acentos, pontos e maiúsculas
   let texto = picked.t
-    .replace(/[.,!?;:""«»]/g, '')
     .replace(/\s{2,}/g, ' ')
-    .trim()
-    .toLowerCase();
+    .trim();
 
   return texto.split(' ').filter(w => w.length > 0);
 }
@@ -623,8 +622,19 @@ function handleInput(e) {
 function handleKeydown(e) {
   if (e.key === 'Tab') { e.preventDefault(); init(false); focusInput(); return; }
 
+  // ── ATALHO DO ENTER (VALIDAÇÃO AVANÇADA DE FIM DE FRASE) ──
   if (e.key === 'Enter') {
-    // ... código do Enter que já existe
+    const isLastWord = state.wordIndex === state.words.length - 1;
+    const currentWord = state.words[state.wordIndex];
+    // Checa se a última palavra foi totalmente digitada (índice do caractere chegou ao fim da palavra)
+    const finishedLastWord = isLastWord && currentWord && state.charIndex >= currentWord.length;
+
+    if (state.finished || state.wordIndex >= state.words.length || finishedLastWord) {
+      e.preventDefault();
+      init(true); // Avança para o próximo texto
+      setTimeout(focusInput, 20);
+      return;
+    }
   }
 
   // ── MODO ESTRITO: intercepta qualquer caractere ──
