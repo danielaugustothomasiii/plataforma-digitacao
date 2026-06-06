@@ -1114,6 +1114,17 @@ document.addEventListener('keydown', e => {
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('digita-theme', theme);
+
+  const themeIcon = document.querySelector('#themeToggle img');
+  if (themeIcon) {
+    if (theme === 'dark') {
+      themeIcon.src = 'imagens/BotoesdeTema/TemaClaro.png';
+      themeIcon.alt = 'Mudar para tema claro';
+    } else {
+      themeIcon.src = 'imagens/BotoesdeTema/TemaEscuro.png';
+      themeIcon.alt = 'Mudar para tema escuro';
+    }
+  }
 }
 
 $('themeToggle').addEventListener('click', () => {

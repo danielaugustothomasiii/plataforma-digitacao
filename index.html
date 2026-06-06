@@ -15,6 +15,9 @@
   <video id="bgVideo" autoplay muted loop playsinline>
   <source src="imagens/Fundo animado1.mp4" type="video/mp4">
 </video>
+<video id="bgVideoLight" autoplay muted loop playsinline>
+  <source src="imagens/Fundo animado2.mov" type="video/mp4">
+</video>
 </main>
   <!-- ═══════════ TELA DE BOAS-VINDAS ═══════════ -->
   <div id="welcomeScreen" class="welcome-screen">
@@ -98,10 +101,9 @@
   </select>
 </div>
       
-      <button id="themeToggle" title="Alternar tema">
-        <img src="imagens/4808961-200.png" alt="Alternar tema"
-        img src="imagens/6559203.png" alt="Alternar tema"  />
-      </button>
+      <<button id="themeToggle" title="Alternar tema">
+  <img src="imagens/BotoesdeTema/TemaClaro.png" alt="Alternar tema" />
+</button>
       <button id="soundToggle" title="Som">
   <img src="imagens/volume1.png" id="soundIcon" />
 <button class="header-user" id="headerUser" title="Ver perfil" onclick="openProfile()">
@@ -486,32 +488,30 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
         </div>
       </div>
 
-      <!-- ── Selecionar cor do avatar ── -->
       <div class="profile-divider"></div>
-      <div class="profile-customization" id="profileCustomization">
-        <p class="profile-section-title">Personalização</p>
-        <p class="profile-sub-label" style="margin-top:14px">Personagens</p>
-        <div class="profile-img-avatar-grid" id="profileImgAvatarGrid">
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('super-heroi')" title="Super-herói">
-            <img src="Imagens/super-heroi.png" alt="Avatar Super-herói">
-          </button>
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('do-utilizador')" title="Utilizador">
-            <img src="Imagens/do-utilizador.png" alt="Avatar Utilizador">
-          </button>
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('garoto')" title="Garoto">
-            <img src="Imagens/garoto.png" alt="Avatar Garoto">
-          </button>
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('mulher')" title="Mulher">
-            <img src="Imagens/mulher.png" alt="Avatar Mulher">
-          </button>
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('velha')" title="Vovó">
-            <img src="Imagens/velha.png" alt="Avatar Vovó">
-          </button>
-          <button class="profile-img-avatar-btn" onclick="setImgAvatar('gerente')" title="Gerente">
-            <img src="Imagens/gerente.png" alt="Avatar Gerente">
-          </button>
-        </div>
-      </div>
+<div class="profile-customization" id="profileCustomization">
+  <p class="profile-section-title">Personalização — Personagens</p>
+  <div class="profile-img-avatar-grid" id="profileImgAvatarGrid">
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('super-heroi')" title="Super-herói">
+      <img src="Imagens/AvatarProfile/super-heroi.png" alt="Avatar Super-herói">
+    </button>
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('do-utilizador')" title="Utilizador">
+      <img src="Imagens/AvatarProfile/do-utilizador.png" alt="Avatar Utilizador">
+    </button>
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('garoto')" title="Garoto">
+      <img src="Imagens/AvatarProfile/garoto.png" alt="Avatar Garoto">
+    </button>
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('mulher')" title="Mulher">
+      <img src="Imagens/AvatarProfile/mulher.png" alt="Avatar Mulher">
+    </button>
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('velha')" title="Vovó">
+      <img src="Imagens/AvatarProfile/velha.png" alt="Avatar Vovó">
+    </button>
+    <button class="profile-img-avatar-btn" onclick="setImgAvatar('gerente')" title="Gerente">
+      <img src="Imagens/AvatarProfile/gerente.png" alt="Avatar Gerente">
+    </button>
+  </div>
+</div>
 
       <!-- ── Stats ── -->
       <div class="profile-divider"></div>

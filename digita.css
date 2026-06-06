@@ -43,10 +43,10 @@
    VARIÁVEIS — TEMA CLARO
    ══════════════════════════════════════════════ */
 [data-theme="light"] {
-  --bg:        #b4b0b03d;
+  --bg:        #ffffff;
   --surface:   #ffffff;
   --surface2:  #f0e8e8;
-  --border:    #7c7575;
+  --border:    #f3dfdf;
 
   --red-main:  #c0392b;
   --red-dark:  #96281b;
@@ -116,7 +116,42 @@ body {
   background: rgba(0, 0, 0, 0.75);
   z-index: -1;
 }
+/* Vídeo escuro: só no tema escuro */
+#bgVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+  display: none; /* escondido por padrão */
+}
+[data-theme="dark"] #bgVideo {
+  display: block;
+}
 
+#bgVideoLight {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+  display: none;
+}
+
+[data-theme="light"] #bgVideoLight {
+  display: block;
+}
+
+@keyframes videoFade {
+  0%   { opacity: 1; }
+  85%  { opacity: 1; }
+  95%  { opacity: 0; }
+  100% { opacity: 1; }
+}
 /* ══════════════════════════════════════════════
    BLOBS DE FUNDO
    ══════════════════════════════════════════════ */
@@ -140,7 +175,19 @@ body::after {
   bottom: -200px; right: -200px;
   animation: floatA 10s ease-in-out infinite alternate-reverse;
 }
-[data-theme="light"] body::before { background: radial-gradient(circle, rgba(192,57,43,0.10), transparent 70%); }
+[data-theme="light"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.438); /* ajuste de 0 a 1 conforme preferir */
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 0;
+  filter: none;
+  animation: none;
+  width: 100%;
+  height: 100%;
+}
 [data-theme="light"] body::after  { background: radial-gradient(circle, rgba(150,40,27,0.08), transparent 70%); }
 
 @keyframes floatA {
@@ -153,6 +200,7 @@ body::after {
    HEADER
    ══════════════════════════════════════════════ */
 header {
+  height: 100px;
   position: relative;
   z-index: 10;
   display: flex;
@@ -160,12 +208,12 @@ header {
   justify-content: space-between;
   padding: 10px 50px;
   border-bottom: 1px solid var(--border);
-  background: rgba(209, 204, 204, 0.137);
+  background: rgba(59, 49, 49, 0.336);
   backdrop-filter: blur(14px);
   transition: background 0.3s, border-color 0.3s;
 }
 [data-theme="light"] header {
-  background: rgba(138, 136, 136, 0.295);
+  background: rgb(199, 199, 199);
 }
 
 .logo {
@@ -1150,7 +1198,11 @@ header {
   transition: filter 0.3s, transform 0.2s;
 }
 [data-theme="dark"] .logo-img {
-  filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 10px rgb(216, 3, 3));
+  height: 145px; 
+}
+
+[data-theme="dark"] .welcome-logo {
+  height: 145px;
 }
 .logo-img:hover {
   transform: scale(1.03);
@@ -1183,8 +1235,17 @@ header {
   line-height: 1.1;
 }
 
-[data-theme="light"] .logo-app-name {
-  filter: none;
+/* Tema escuro: logo original (letras brancas) */
+[data-theme="dark"] .logo-img,
+[data-theme="dark"] .welcome-logo {
+  content: url('imagens/LogoTemaEscuro.png');
+}
+
+/* Tema claro: logo com letras escuras */
+[data-theme="light"] .logo-img,
+[data-theme="light"] .welcome-logo {
+  content: url('imagens/LogoTemaClaro.png');
+  filter: none; /
 }
 
 .logo-app-sub {
