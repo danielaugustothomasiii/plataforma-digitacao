@@ -1,80 +1,209 @@
-<<<<<<< HEAD
-# ⌨️ Digita — Teste de Digitação
+# 🚀 Digita Server (Node.js + SQLite)
 
-Projeto completo de teste de digitação com frontend moderno (HTML/CSS/JS) e backend em Python puro (sem dependências externas).
-
----
-
-## 📁 Estrutura
-
-```
-typing-test/
-├── index.html   # Interface principal
-├── style.css    # Estilos (tema escuro/claro, layout responsivo)
-├── app.js       # Lógica do teste + integração com API
-├── server.py    # Servidor HTTP + API REST + banco SQLite
-└── results.db   # Criado automaticamente ao iniciar o servidor
-```
+Servidor backend do projeto **Digita**, responsável por armazenar resultados de digitação, rankings em tempo real e gerenciamento de usuários.
 
 ---
 
-## 🚀 Como usar
+## 📦 Tecnologias
 
-### Sem servidor (só frontend)
-Abra o `index.html` diretamente no navegador. Tudo funciona — apenas o salvamento de resultados fica desativado.
+* Node.js
+* Express
+* SQLite (better-sqlite3)
+* Socket.IO
+* CORS
 
-### Com servidor Python
+---
+
+## ⚙️ Funcionalidades
+
+* ✅ Registro de resultados de digitação
+* 🏆 Ranking global (all-time)
+* 📅 Ranking diário
+* ⚡ Atualização em tempo real (WebSocket)
+* 👥 Controle de usuários (limite configurável)
+* 📊 Estatísticas gerais e por modo
+* 🔍 Consulta de usuários
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+📦 digita-server
+ ┣ 📄 server.js
+ ┣ 📄 digita.db
+ ┣ 📄 package.json
+ ┗ 📁 public (frontend, se houver)
+```
+
+---
+
+## 🛠️ Instalação
+
 ```bash
-python server.py
+# Clone o repositório
+git clone https://github.com/seu-usuario/digita-server.git
+
+# Entre na pasta
+cd digita-server
+
+# Instale as dependências
+npm install
 ```
-Acesse: **http://localhost:8080**
 
 ---
 
-## 🎮 Funcionalidades
+## ▶️ Executando o servidor
 
-| Feature | Descrição |
-|---|---|
-| **4 modos** | 15s · 30s · 60s · Infinito (texto completo) |
-| **Métricas ao vivo** | WPM, Precisão, Tempo, Erros |
-| **Resultado detalhado** | Rating, gráfico WPM/tempo, 6 estatísticas |
-| **Tema escuro/claro** | Toggle no header |
-| **Teclado** | `Tab` reinicia · `Space` avança palavra |
-| **Responsivo** | Funciona em desktop e mobile |
+```bash
+node server.js
+```
+
+O servidor iniciará em:
+
+```
+http://localhost:3000
+```
 
 ---
 
-## 🔌 API REST (Python)
+## 🌐 Rotas da API
 
-| Método | Endpoint | Descrição |
-|---|---|---|
-| `GET` | `/api/health` | Status do servidor |
-| `GET` | `/api/stats` | Estatísticas agregadas |
-| `GET` | `/api/results?limit=20&mode=30s` | Últimos resultados |
-| `POST` | `/api/results` | Salvar novo resultado |
+### 🔹 Health Check
 
-### Exemplo de POST
+```
+GET /api/health
+```
+
+Retorna status do servidor e quantidade de usuários.
+
+---
+
+### 🔹 Enviar resultado
+
+```
+POST /api/results
+```
+
+**Body JSON:**
+
 ```json
 {
-  "wpm": 72,
-  "accuracy": 97.3,
+  "name": "Daniel",
+  "wpm": 85,
+  "accuracy": 97,
   "errors": 2,
-  "chars": 312,
-  "words": 64,
-  "duration": 30,
-  "mode": "30s"
+  "chars": 300,
+  "words": 60,
+  "duration": 15,
+  "mode": "15s"
 }
 ```
 
 ---
 
-## 🛠️ Tecnologias
+### 🔹 Ranking geral
 
-- **Frontend**: HTML5, CSS3 (variáveis, grid, animações), JavaScript vanilla
-- **Backend**: Python 3 stdlib — `http.server`, `sqlite3`, `json`
-- **Fonte**: Space Mono + Syne (Google Fonts)
-- **Banco**: SQLite (arquivo local `results.db`)
+```
+GET /api/ranking
+```
 
-> Sem dependências externas! Apenas Python 3.7+ necessário.
-=======
+---
 
+### 🔹 Ranking por modo
+
+```
+GET /api/ranking/mode/:mode
+```
+
+Exemplo:
+
+```
+/api/ranking/mode/30s
+```
+
+---
+
+### 🔹 Lista de usuários
+
+```
+GET /api/users
+```
+
+---
+
+### 🔹 Verificar usuário
+
+```
+GET /api/users/check/:name
+```
+
+---
+
+## ⚡ WebSocket (Socket.IO)
+
+### Eventos disponíveis:
+
+* `ranking_update` → recebe atualização automática do ranking
+* `request_ranking` → solicita atualização manual
+
+---
+
+## 🗄️ Banco de Dados
+
+O banco SQLite (`digita.db`) contém:
+
+### 📊 Tabela `results`
+
+Armazena todos os testes realizados.
+
+### 🏆 Tabela `daily_best`
+
+Melhor resultado diário por usuário.
+
+### 👤 Tabela `users`
+
+Usuários cadastrados.
+
+---
+
+## ⚙️ Configurações
+
+No código:
+
+```js
+const MAX_USERS = 1000;
+```
+
+Define o limite máximo de usuários.
+
+---
+
+## 📡 Deploy
+
+Você pode rodar este servidor em:
+
+* Render
+* Railway
+* VPS (Linux/Windows)
+* Docker (recomendado para produção)
+
+---
+
+## 🔒 Observações
+
+* O banco SQLite é local (arquivo `.db`)
+* Ideal para projetos pequenos/médios
+* Para alta escala, considere migrar para PostgreSQL
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por você 😎
+
+---
+
+## 📄 Licença
+
+MIT
