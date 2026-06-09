@@ -200,7 +200,7 @@ Você pode rodar este servidor em:
 
 ## 👨‍💻 Autor
 
-Desenvolvido por você 😎
+Desenvolvido por Daniel Thomasi 😎
 
 ---
 
