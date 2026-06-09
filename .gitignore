@@ -1,7 +1,17 @@
+# Node
 node_modules/
+
+# Banco
 *.db
 *.db-shm
 *.db-wal
+
+# Variáveis de ambiente
 .env
-Imagens/*.mov
+
+# Vídeos (IMPORTANTE)
 Imagens/*.mp4
+Imagens/*.mov
+
+# Logs
+npm-debug.log*
