@@ -70,17 +70,151 @@ const TEXTOS_LONGOS = [
   "APIs são interfaces que permitem que diferentes sistemas se comuniquem sem precisar conhecer os detalhes internos um do outro. Quando um aplicativo de clima exibe a previsão do tempo, ele provavelmente está consultando uma API meteorológica em segundo plano. Elas são os blocos de construção que tornam possível a internet interconectada que usamos hoje. APIs REST são o padrão mais comum, usando HTTP para trocar dados em formato JSON. A economia de APIs movimenta bilhões de dólares, com empresas cobrando por acesso a seus dados e serviços através delas.",
   "Testes automatizados são como uma rede de segurança que garante que novas mudanças não quebrem o que já funcionava. A prática de escrever o teste antes do código, chamada Desenvolvimento Orientado a Testes, obriga o programador a pensar no comportamento esperado antes de implementar. Times que testam bem dormem melhor à noite. Testes unitários, de integração e end-to-end cobrem diferentes níveis do sistema. Grandes empresas como Google e Microsoft investem enormes recursos em infraestrutura de testes, pois o custo de um bug em produção é muito maior do que preveni-lo.",
 ];
+const TEXTOS_NUMEROS = [
+  "42 17 83 65 29 74 11 56 38 90 23 67 45 12 88",
+  "100 250 375 842 619 473 28 95 731 504 867 143",
+  "3.14 2.71 1.41 1.73 0.57 9.80 6.67 1.60 2.99",
+  "1984 2001 1776 2024 1969 2010 1492 2048 1815",
+  "47 + 83 = 130, 256 - 74 = 182, 15 x 6 = 90",
+  "192.168.0.1 255.255.255.0 10.0.0.1 172.16.0.1",
+  "8 16 32 64 128 256 512 1024 2048 4096 8192",
+  "1 1 2 3 5 8 13 21 34 55 89 144 233 377 610",
+  "0800 1234 5678 9012 3456 7890 1111 2222 3333",
+  "73 29 58 14 67 41 95 32 86 50 23 77 44 61 18",
+];
+// ══════════════════════════════════════════════
+// BANCO DE TEXTOS — NOVOS TEMAS
+// ══════════════════════════════════════════════
 
+const TEXTOS_CIENCIA_CURTOS = [
+  "A luz viaja a trezentos mil quilômetros por segundo no vácuo.",
+  "O DNA humano contém cerca de três bilhões de pares de bases.",
+  "A água é a única substância que existe nos três estados na natureza.",
+  "Átomos são compostos por prótons, nêutrons e elétrons.",
+  "O sistema solar tem oito planetas reconhecidos oficialmente.",
+  "A gravidade é a força que mantém os planetas em órbita.",
+  "O oxigênio representa vinte e um por cento da atmosfera terrestre.",
+  "A fotossíntese converte luz solar em energia química nas plantas.",
+  "O cérebro humano contém cerca de oitenta e seis bilhões de neurônios.",
+  "A velocidade do som no ar é de trezentos e quarenta metros por segundo.",
+];
+
+const TEXTOS_CIENCIA_MEDIOS = [
+  "A teoria da relatividade de Einstein mudou a forma como entendemos o tempo e o espaço. Ele mostrou que o tempo passa mais devagar em altas velocidades e campos gravitacionais intensos. GPS depende de correções relativísticas para funcionar com precisão.",
+  "A mecânica quântica descreve o comportamento de partículas subatômicas com regras que desafiam o senso comum. Um elétron pode estar em dois lugares ao mesmo tempo até ser observado. Esse fenômeno, chamado superposição, é a base dos computadores quânticos.",
+  "O Big Bang ocorreu há cerca de treze vírgula oito bilhões de anos, criando o universo a partir de uma singularidade infinitamente densa. Nos primeiros instantes, temperatura e energia eram incompreensíveis. O universo segue se expandindo e acelerando até hoje.",
+  "A seleção natural é o mecanismo central da evolução descrito por Charles Darwin. Organismos com características mais adaptadas ao ambiente sobrevivem e se reproduzem mais. Com o tempo, essas características se tornam dominantes na população.",
+  "O sistema imunológico humano é capaz de reconhecer bilhões de patógenos diferentes. Células T e B colaboram para destruir invasores e criar memória imunológica. As vacinas exploram essa memória para proteger contra doenças sem causar a infecção real.",
+];
+
+const TEXTOS_CIENCIA_LONGOS = [
+  "A fusão nuclear é o processo que alimenta o sol e as estrelas, unindo átomos leves para liberar energia enorme. Na Terra, cientistas tentam replicar isso há décadas no projeto ITER, na França. Se bem-sucedida, a fusão poderia fornecer energia limpa e quase ilimitada para a humanidade. O principal desafio é conter o plasma a temperaturas de cem milhões de graus, dez vezes mais quente que o núcleo solar. Nenhum material suporta esse calor, então usa-se campos magnéticos para suspender o plasma no ar.",
+  "O mapeamento do genoma humano foi concluído em 2003 após treze anos de trabalho colaborativo internacional. O Projeto Genoma Humano identificou os vinte e cinco mil genes que nos definem como espécie. Esse conhecimento revolucionou a medicina, permitindo diagnósticos genéticos e tratamentos personalizados. Hoje, sequenciar um genoma completo custa menos de mil dólares, contra três bilhões em 2003. A edição genética com CRISPR promete tratar doenças hereditárias diretamente na fonte do problema.",
+];
+
+const TEXTOS_LITERATURA_CURTOS = [
+  "Ler um bom livro é como viajar sem sair do lugar.",
+  "Dom Casmurro foi publicado por Machado de Assis em 1899.",
+  "Hamlet é uma das peças mais encenadas de Shakespeare.",
+  "Grande Sertão Veredas é considerado o maior romance brasileiro.",
+  "Fernando Pessoa criou heterônimos com personalidades distintas.",
+  "O Alquimista de Paulo Coelho foi traduzido para oitenta línguas.",
+  "Clarice Lispector reinventou a prosa brasileira com sua escrita introspectiva.",
+  "Mil e Uma Noites reúne contos da tradição árabe e persa medieval.",
+  "Garcia Márquez inventou o realismo mágico na América Latina.",
+  "Dante Alighieri escreveu a Divina Comédia no início do século quatorze.",
+];
+
+const TEXTOS_LITERATURA_MEDIOS = [
+  "Machado de Assis é considerado o maior escritor da literatura brasileira. Seus romances da fase realista, como Memórias Póstumas de Brás Cubas e Quincas Borba, exploraram a hipocrisia da sociedade carioca do século dezenove com ironia e profundidade psicológica únicas.",
+  "Jorge Luis Borges criou universos literários onde labirintos, espelhos e infinitos se entrelaçam. Seus contos breves funcionam como experimentos filosóficos disfarçados de ficção. Obras como Ficções e O Aleph influenciaram gerações de escritores ao redor do mundo.",
+  "Guimarães Rosa transformou a língua portuguesa ao criar palavras e ritmos inspirados no falar do sertão mineiro. Em Grande Sertão Veredas, o jagunço Riobaldo narra sua vida num monólogo denso e poético. O livro é simultaneamente romance de aventura, poema épico e tratado filosófico.",
+  "Franz Kafka deixou uma obra perturbadora sobre indivíduos esmagados por sistemas incompreensíveis. Em A Metamorfose, um homem acorda transformado em inseto e enfrenta a rejeição da família. O termo kafkiano entrou para o vocabulário mundial para descrever situações absurdas e opressivas.",
+  "Gabriel García Márquez levou o realismo mágico ao auge com Cem Anos de Solidão, publicado em 1967. A saga da família Buendía em Macondo mistura eventos sobrenaturais com a história política da América Latina. O livro vendeu mais de cinquenta milhões de cópias e rendeu ao autor o Nobel de Literatura.",
+];
+
+const TEXTOS_LITERATURA_LONGOS = [
+  "Clarice Lispector chegou ao Brasil ainda bebê, fugindo do antissemitismo da Ucrânia, e tornou-se a maior escritora da literatura brasileira. Sua prosa explora estados interiores com uma precisão que se aproxima da fenomenologia filosófica. Em A Hora da Estrela, narra a tragédia de Macabéa, uma nordestina invisível no Rio de Janeiro. Em A Paixão Segundo G.H., uma mulher tem uma experiência mística ao esmagar uma barata. Sua linguagem quebra a sintaxe convencional e força o leitor a habitar a consciência das personagens de dentro para fora.",
+  "William Shakespeare escreveu trinta e sete peças entre 1590 e 1613, criando personagens que definiram arquétipos humanos universais. Hamlet explorou a paralisia diante da injustiça. Otelo mapeou o ciúme destrutivo. Lear investigou a ingratidão e a loucura. Suas peças eram encenadas para todos os públicos, do camponês ao rei. Quatro séculos depois, continuam sendo as mais encenadas do mundo, traduzidas para mais línguas que qualquer outra obra literária exceto a Bíblia.",
+];
+
+const TEXTOS_HISTORIA_CURTOS = [
+  "A Revolução Francesa começou em 1789 com a queda da Bastilha.",
+  "O Império Romano durou por volta de cinco séculos no Ocidente.",
+  "Cleópatra foi a última faraó do Egito antes da conquista romana.",
+  "A Segunda Guerra Mundial terminou em 1945 com a rendição do Japão.",
+  "A Proclamação da República do Brasil ocorreu em quinze de novembro de 1889.",
+  "Napoleão Bonaparte foi exilado na ilha de Santa Helena em 1815.",
+  "A Grande Muralha da China foi construída ao longo de vários séculos.",
+  "A Revolução Industrial começou na Inglaterra no século dezoito.",
+  "Os Jogos Olímpicos antigos aconteciam na Grécia a cada quatro anos.",
+  "A imprensa de Gutenberg revolucionou a difusão do conhecimento em 1440.",
+];
+
+const TEXTOS_HISTORIA_MEDIOS = [
+  "A Revolução Francesa derrubou a monarquia absoluta e estabeleceu os princípios de liberdade, igualdade e fraternidade. O período do Terror, liderado por Robespierre, custou milhares de vidas sob a guilhotina. As ideias da Revolução se espalharam pela Europa e inspiraram movimentos de independência em todo o mundo.",
+  "O Império Mongol foi o maior contíguo da história, controlando da China até o leste europeu no século treze. Gengis Khan unificou as tribos nômades da Ásia Central com brutalidade e genialidade estratégica. Sua administração, porém, favoreceu o comércio e a troca cultural ao longo da Rota da Seda.",
+  "A Segunda Guerra Mundial foi o conflito mais devastador da história humana, com mais de setenta milhões de mortos. O Holocausto perpetrado pela Alemanha nazista assassinou seis milhões de judeus e outros grupos. O conflito redefiniu fronteiras, criou a ONU e dividiu o mundo em dois blocos durante a Guerra Fria.",
+  "A Independência do Brasil foi proclamada em sete de setembro de 1822 por Dom Pedro I às margens do rio Ipiranga. O processo foi relativamente pacífico comparado às demais independências latino-americanas, pois a família real portuguesa havia se estabelecido no Brasil em 1808. O país permaneceu como monarquia até 1889.",
+  "A Revolução Industrial transformou a sociedade agrária europeia numa civilização urbana e fabril entre 1760 e 1840. A invenção da máquina a vapor por James Watt acelerou a produção têxtil e o transporte ferroviário. As condições de trabalho nas fábricas eram brutais, o que gerou os primeiros movimentos operários.",
+];
+
+const TEXTOS_HISTORIA_LONGOS = [
+  "O Império Romano deixou um legado que moldou a civilização ocidental de formas que ainda sentimos hoje. Seu direito tornou-se a base dos sistemas jurídicos europeus. Seu latim gerou o português, espanhol, francês, italiano e romeno. Sua arquitetura, com arcos e colunas, influenciou prédios públicos por dois mil anos. No auge, o Império controlava cerca de cinco milhões de quilômetros quadrados e sessenta milhões de pessoas. Sua queda no Ocidente em 476 d.C. não foi um colapso súbito, mas um processo lento de pressão externa, crise interna e divisão política.",
+  "A construção das pirâmides de Gizé é uma das maiores façanhas de engenharia de toda a história humana. A Grande Pirâmide de Quéops levou aproximadamente vinte anos para ser concluída, empregando mais de cem mil trabalhadores. Pesquisas modernas mostram que eram trabalhadores assalariados, não escravos. Cada um dos dois milhões e trezentos mil blocos de calcário pesava em média dois vírgula cinco toneladas. Sem rodas, guindastes ou aço, os egípcios criaram estruturas que desafiaram o tempo por quarenta e cinco séculos.",
+];
 // ══════════════════════════════════════════════
 // SELEÇÃO INTELIGENTE POR MODO
 // ══════════════════════════════════════════════
 function getPoolForCurrentMode() {
-  if (state.customMode) return TEXTOS_LONGOS;
+  // Modo números ignora tema
+  if (state.numbersMode) return TEXTOS_NUMEROS;
+
+  // Determina tamanho pelo tempo
   const secs = state.mode;
-  if (secs <= 15) return TEXTOS_CURTOS;
-  if (secs <= 60) return TEXTOS_MEDIOS;
-  return TEXTOS_LONGOS;
+  let size = 'medio';
+  if (!state.customMode) {
+    if (secs <= 15) size = 'curto';
+    else if (secs <= 60) size = 'medio';
+    else size = 'longo';
+  }
+
+  // Aleatório: escolhe tema ao acaso a cada texto
+  if (state.textTheme === 'random') {
+    const temas = ['tech', 'science', 'lit', 'history'];
+    const t = temas[Math.floor(Math.random() * temas.length)];
+    return _poolByThemeAndSize(t, size);
+  }
+
+  return _poolByThemeAndSize(state.textTheme, size);
 }
+
+function _poolByThemeAndSize(theme, size) {
+  const map = {
+    tech: {
+      curto: TEXTOS_CURTOS,
+      medio: TEXTOS_MEDIOS,
+      longo: TEXTOS_LONGOS,
+    },
+    science: {
+      curto: TEXTOS_CIENCIA_CURTOS,
+      medio: TEXTOS_CIENCIA_MEDIOS,
+      longo: TEXTOS_CIENCIA_LONGOS,
+    },
+    lit: {
+      curto: TEXTOS_LITERATURA_CURTOS,
+      medio: TEXTOS_LITERATURA_MEDIOS,
+      longo: TEXTOS_LITERATURA_LONGOS,
+    },
+    history: {
+      curto: TEXTOS_HISTORIA_CURTOS,
+      medio: TEXTOS_HISTORIA_MEDIOS,
+      longo: TEXTOS_HISTORIA_LONGOS,
+    },
+  };
+  return (map[theme] && map[theme][size]) || TEXTOS_MEDIOS;
+}
+
 
 function generateWords(excludeIndex) {
   const pool = getPoolForCurrentMode();
@@ -91,7 +225,7 @@ function generateWords(excludeIndex) {
   const picked = candidates[Math.floor(Math.random() * candidates.length)];
   state.lastTextIndex = picked.i;
 
-  // Mudança aqui: mantém acentos, pontos e maiúsculas
+  //mantém acentos, pontos e maiúsculas
   let texto = picked.t
     .replace(/\s{2,}/g, ' ')
     .trim();
@@ -344,18 +478,19 @@ function fmtDateTime(iso) {
 
 // ── Abas internas do ranking ───────────────────
 (function initRankTabs() {
- let rankModeFilter = 'all';
+  let rankModeFilter = 'all';
 
-function applyModeFilter(rows) {
-  if (rankModeFilter === 'all') return rows;
-  return rows.filter(r => {
-    const m = (r.mode || '').toLowerCase();
-    if (rankModeFilter === 'complete') return m === 'complete' || m === 'texto-completo';
-    return m === rankModeFilter;
-  });
-}
+  function applyModeFilter(rows) {
+    if (rankModeFilter === 'all') return rows;
+    return rows.filter(r => {
+      const m = (r.mode || '').toLowerCase();
+      if (rankModeFilter === 'numbers') return m.startsWith('numbers');
+      return m === rankModeFilter;
+    });
+  }
 
-(function initRankFilter() {
+  window.applyModeFilter = applyModeFilter; // expõe globalmente
+
   document.querySelectorAll('.rank-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.rank-filter-btn').forEach(b => b.classList.remove('active'));
@@ -364,7 +499,7 @@ function applyModeFilter(rows) {
       renderRanking();
     });
   });
-})();
+
   document.querySelectorAll('.rank-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
@@ -372,7 +507,7 @@ function applyModeFilter(rows) {
       tab.classList.add('active');
       rankActiveTab = tab.dataset.tab;
       const panelId = 'rankPanel' + rankActiveTab.charAt(0).toUpperCase() + rankActiveTab.slice(1);
-      $( panelId ).classList.add('active');
+      $(panelId).classList.add('active');
       renderRanking();
     });
   });
@@ -393,10 +528,12 @@ const state = {
   totalTyped: 0,
   wpmHistory: [], wpmInterval: null,
   focused: false, customMode: false,
+  numbersMode: false,
   lastTextIndex: -1,
   parasTotal: 'inf',
   parasUsed: 0,
   currentPara: 1,
+  textTheme: 'tech',      
 };
 
 // ── DOM Refs ───────────────────────────────────
@@ -474,7 +611,7 @@ function init(newText = false) {
     keystrokes: 0, keyErrors: 0, liveErrors: 0,
     totalTyped: 0, correctChars: 0,
     wpmHistory: [],
-    timeLeft: state.customMode ? Infinity : state.mode,
+  timeLeft: state.customMode ? Infinity : (state.mode || 60),
     parasUsed: 0,
     currentPara: 1,
   });
@@ -487,11 +624,12 @@ function init(newText = false) {
   const co = $('congratsOverlay');
   if (co) co.classList.remove('active');
   clickHint.style.opacity = '1';
-  timerDisplay.textContent = state.customMode ? '∞' : formatTime(state.mode);
+ timerDisplay.textContent = state.customMode ? '∞' : formatTime(state.mode || 60);
   _updateParaCounter();
 }
 
 function formatTime(seconds) {
+  if (!seconds || isNaN(seconds)) return '—';  
   if (seconds < 60) return seconds + 's';
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
@@ -631,7 +769,7 @@ function handleKeydown(e) {
 
     if (state.finished || state.wordIndex >= state.words.length || finishedLastWord) {
       e.preventDefault();
-      init(true); // Avança para o próximo texto
+      init(true); 
       setTimeout(focusInput, 20);
       return;
     }
@@ -648,7 +786,7 @@ function handleKeydown(e) {
     const expected = currentWord[state.charIndex];
 
     if (e.key === expected) {
-      // ✅ Letra correta — avança normalmente
+      // Letra correta — avança normalmente
       state.keystrokes++;
       state.charIndex++;
       state.correctChars++;
@@ -696,7 +834,7 @@ function handleKeydown(e) {
       }
 
     } else {
-      // ❌ Letra errada — trava e dá feedback
+    
       state.keyErrors++;
 
       const wordEls = wordsContainer.querySelectorAll('.word');
@@ -799,7 +937,7 @@ function startTest() {
   state.startTime = Date.now();
   clickHint.style.opacity = '0';
 
-  if (!state.customMode) {
+  if (!state.customMode) { 
     state.timer = setInterval(() => {
       state.timeLeft--;
       timerDisplay.textContent = formatTime(state.timeLeft);
@@ -896,7 +1034,11 @@ function prepareResults(elapsed, wpm, acc, ke) {
     chars:    state.correctChars,
     words:    state.wordIndex,
     duration: Math.round(elapsed),
-    mode:     state.customMode ? 'custom' : state.mode + 's',
+    mode: state.numbersMode
+  ? 'numbers-' + state.mode + 's'
+  : state.customMode
+    ? 'custom'
+    : state.mode + 's',
   });
 }
 
@@ -954,7 +1096,7 @@ function updateStats(live) {
     wpmDisplay.textContent = '—';
     accDisplay.textContent = '—';
     errDisplay.textContent = '—';
-    timerDisplay.textContent = state.customMode ? '∞' : formatTime(state.mode);
+    timerDisplay.textContent = state.customMode ? '∞' : formatTime(state.mode || 60);
   }
 }
 
@@ -1075,13 +1217,14 @@ const paraSelect = document.getElementById('paraSelect');
 if (modeSelect) {
   modeSelect.addEventListener('change', () => {
     const mode = modeSelect.value;
-    state.customMode = mode === 'custom';
-    state.mode       = state.customMode ? null : parseInt(mode);
+    state.customMode = (mode === 'custom');
+    state.mode       = state.customMode ? null : parseInt(mode); // ← null para custom
     state.timeLeft   = state.customMode ? Infinity : state.mode;
     init(true);
     focusInput();
   });
 }
+
 
 if (paraSelect) {
   paraSelect.addEventListener('change', () => {
@@ -1242,8 +1385,7 @@ function saveName() {
   if (!name) return;
   sessionStorage.setItem('digita-user', name);
   $('profileNameDisplay').textContent = name;
-  $('headerUserName').textContent     = name;
-  $('headerUserAvatar').textContent   = name.charAt(0).toUpperCase();
+  _renderHeaderAvatar();               
   _renderProfileAvatar();
   $('profileNameEdit').style.display  = 'none';
   showToast('Nome atualizado ✓');
@@ -1272,12 +1414,22 @@ function _renderProfileAvatar() {
 }
 
 function _renderHeaderAvatar() {
-  const avatar = $('headerUserAvatar');
-  const photo  = sessionStorage.getItem('digita-photo');
-  const name   = sessionStorage.getItem('digita-user') || '?';
-  avatar.innerHTML = photo
-    ? `<img src="${photo}" alt="foto" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`
-    : name.charAt(0).toUpperCase();
+  const avatar    = $('headerUserAvatar');
+  const nameSpan  = $('headerUserName');
+  const photo     = sessionStorage.getItem('digita-photo');
+  const name      = sessionStorage.getItem('digita-user') || '?';
+  const savedBall = sessionStorage.getItem('digita-ball-color') || '#c0392b';
+  const savedBg   = sessionStorage.getItem('digita-bg-color')   || '#1a1212';
+
+  if (photo) {
+    avatar.innerHTML        = `<img src="${photo}" alt="foto" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+    avatar.style.background = savedBg;
+  } else {
+    avatar.innerHTML        = name.charAt(0).toUpperCase();
+    avatar.style.background = savedBall;
+  }
+
+  if (nameSpan) nameSpan.textContent = name;
 }
 
 function logoutProfile() {
@@ -1372,39 +1524,116 @@ function _updateParaCounter() {
   });
 })();
 // ══════════════════════════════════════════════
-// PÁGINA: MODOS — botões de seleção
+// PÁGINA: MODOS — seleção de tema e modo
 // ══════════════════════════════════════════════
+
+const THEME_LABELS = {
+  tech:    'Tecnologia',
+  science: 'Ciência',
+  lit:     'Literatura',
+  history: 'História',
+  numbers: 'Números',
+  random:  'Aleatório',
+};
+
+function selectTextTheme(el, theme) {
+  document.querySelectorAll('.theme-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+
+  state.numbersMode = (theme === 'numbers');
+  state.textTheme   = theme;
+
+  localStorage.setItem('digita-theme-texto', theme);
+
+  const sumTheme = document.getElementById('summaryTheme');
+  if (sumTheme) sumTheme.textContent = THEME_LABELS[theme] || theme;
+
+  _updateThemeIndicator(theme); 
+
+  showToast('Tema: ' + (THEME_LABELS[theme] || theme));
+}
+
+function _updateThemeIndicator(theme) {
+  const el = document.getElementById('themeIndicatorLabel');
+  if (!el) return;
+  const icons = {
+    tech: '💻', science: '🔬', lit: '📚',
+    history: '🏛️', numbers: '🔢', random: '🎲',
+  };
+  el.textContent = (icons[theme] || '⚙️') + ' ' + (THEME_LABELS[theme] || theme);
+}
+
 (function initModoCards() {
   document.querySelectorAll('.modo-card').forEach(card => {
-    const btn     = card.querySelector('.modo-select-btn');
-    const val     = card.dataset.modeVal;
+    const btn = card.querySelector('.modo-select-btn');
+    const val = card.dataset.modeVal;
     if (!btn || !val) return;
 
     btn.addEventListener('click', () => {
-      // Atualiza o select no header para ficar sincronizado
-      const modeSelect = $('modeSelect');
-      if (modeSelect) {
-        modeSelect.value = val;
-        modeSelect.dispatchEvent(new Event('change'));
-      }
+  if (val === 'custom') {
+    state.customMode = true;
+    state.mode       = null;
+    state.timeLeft   = Infinity;
+    if (modeSelect) modeSelect.value = 'custom';
+  } else {
+    state.customMode = false;
+    state.mode       = parseInt(val);
+    state.timeLeft   = state.mode;
+    if (modeSelect) modeSelect.value = val;
+  }
 
-      // Destaca o card ativo
+      // Atualiza resumo visual
+      const modeNames = {
+        '15':   'Sprint — 15s',
+        '30':   'Rápido — 30s',
+        '60':   'Clássico — 1min',
+        '900':  'Resistência — 15min',
+        '1800': 'Maratona — 30min',
+        'custom': 'Sem Tempo — ∞',
+      };
+      const sumMode = document.getElementById('summaryMode');
+      if (sumMode) sumMode.textContent = modeNames[val] || val;
+
+      // Destaca card ativo
       document.querySelectorAll('.modo-card').forEach(c => c.classList.remove('modo-card--active'));
       card.classList.add('modo-card--active');
 
-      // Vai para a página inicial e começa
+      // Vai para a tela de jogo
       showPage('home');
+      init(true);
       setTimeout(focusInput, 80);
     });
   });
-
 })();
 // ══════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════
 initSocket();
 applyTheme(localStorage.getItem('digita-theme') || 'dark');
+// ── Restaura tema de texto salvo ──
+(function restoreTextTheme() {
+  const saved = localStorage.getItem('digita-theme-texto') || 'tech'; 
 
+  state.textTheme   = saved;
+  state.numbersMode = (saved === 'numbers');
+
+  const chip = document.querySelector(`.theme-chip[data-theme="${saved}"]`);
+  if (chip) {
+    document.querySelectorAll('.theme-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  }
+
+  const sumTheme = document.getElementById('summaryTheme');
+  if (sumTheme) sumTheme.textContent = THEME_LABELS[saved] || saved;
+
+  _updateThemeIndicator(saved); 
+})();
+
+// ── Clique no indicador vai para Modos ──
+const themeIndicator = document.getElementById('themeIndicator');
+if (themeIndicator) {
+  themeIndicator.addEventListener('click', () => showPage('modo'));
+}
 // ── Tela de Boas-Vindas ────────────────────────
 (function initWelcome() {
   const screen  = $('welcomeScreen');
@@ -1443,36 +1672,94 @@ applyTheme(localStorage.getItem('digita-theme') || 'dark');
   setTimeout(() => input.focus(), 400);
 
   function showUserBadge(name) {
-    $('headerUserName').textContent = name;
-    hUser.classList.add('visible');
-    _renderHeaderAvatar();
-  }
+  const nameSpan = $('headerUserName');
+  if (nameSpan) nameSpan.textContent = name;
+  hUser.classList.add('visible');
+  _renderHeaderAvatar();
+}
 })();
 function modeLabel(mode) {
   const map = {
-    '15s':            '⚡ Sprint',
-    '30s':            '🔥 Rápido',
-    '60s':            '🎯 Clássico',
-    '900s':           '💪 Resistência',
-    '1200s':          '🏋️ Maratona',
-    '1800s':          '🏋️ Maratona',
-    'complete':       '📖 Texto Completo',
-    'texto-completo': '📖 Texto Completo',
-    'custom':         '∞ Sem Tempo',
+    '15s':          '⚡ Sprint',
+    '30s':          '🔥 Rápido',
+    '60s':          '🎯 Clássico',
+    '900s':         '💪 Resistência',
+    '1800s':        '🏋️ Maratona',
+    'numbers-15s':  '🔢 Números 15s',
+    'numbers-30s':  '🔢 Números 30s',
+    'numbers-60s':  '🔢 Números 60s',
+    'numbers-900s': '🔢 Números 15min',
+    'numbers-1800s':'🔢 Números 30min',
+    'numbers':      '🔢 Números',  
+    'custom':       '∞ Sem Tempo',
   };
   return map[mode] || mode || '—';
 }
 
+
 function modeBadge(mode) {
   return `<span class="rank-mode-badge">${escHtml(modeLabel(mode))}</span>`;
 }
-let rankModeFilter = 'all';
 
-function applyModeFilter(rows) {
-  if (rankModeFilter === 'all') return rows;
-  return rows.filter(r => {
-    const m = (r.mode || '').toLowerCase();
-    if (rankModeFilter === 'complete') return m === 'complete' || m === 'texto-completo';
-    return m === rankModeFilter;
+// ══════════════════════════════════════════════
+// GLOW + BALL + BG COLOR PICKERS
+// ══════════════════════════════════════════════
+(function initColorPickers() {
+  const glowPicker  = document.getElementById('glowColorPicker');
+  const bgPicker    = document.getElementById('bgColorPicker');
+  const glowPreview = document.getElementById('glowPreview');
+  const bgPreview   = document.getElementById('bgPreview');
+
+  if (!glowPicker) return;
+
+  // ── Carrega cores salvas ──
+  const savedGlow = sessionStorage.getItem('digita-glow-color') || '#01f30e';
+  const savedBg   = sessionStorage.getItem('digita-bg-color')   || '#c0392b';
+
+  applyGlowColor(savedGlow);
+  applyBgColor(savedBg);
+  glowPicker.value = savedGlow;
+  if (bgPicker) bgPicker.value = savedBg;
+
+  // ── Abre pickers ao clicar nos previews ──
+  if (glowPreview) glowPreview.addEventListener('click', () => glowPicker.click());
+  if (bgPreview)   bgPreview.addEventListener('click',   () => bgPicker?.click());
+
+  // ── Glow ──
+  glowPicker.addEventListener('input',  (e) => applyGlowColor(e.target.value));
+  glowPicker.addEventListener('change', (e) => {
+    sessionStorage.setItem('digita-glow-color', e.target.value);
+    showToast('Cor do brilho atualizada ✓');
   });
-}
+
+  // ── Fundo do avatar ──
+  if (bgPicker) {
+    bgPicker.addEventListener('input',  (e) => applyBgColor(e.target.value));
+    bgPicker.addEventListener('change', (e) => {
+      sessionStorage.setItem('digita-bg-color', e.target.value);
+      showToast('Cor do fundo atualizada ✓');
+    });
+  }
+
+  function applyGlowColor(hex) {
+    document.documentElement.style.setProperty('--glow-color', hex);
+    if (glowPreview) {
+      glowPreview.style.borderColor = hex;
+      glowPreview.style.boxShadow   = `0 0 14px ${hex}`;
+    }
+    const avatar = document.getElementById('headerUserAvatar');
+    if (avatar) avatar.style.borderColor = hex;
+  }
+
+  function applyBgColor(hex) {
+    document.documentElement.style.setProperty('--avatar-bg-color', hex);
+    if (bgPreview) bgPreview.style.background = hex;
+
+    // Aplica em ambos — com ou sem foto
+    const avatar = document.getElementById('headerUserAvatar');
+    if (avatar) avatar.style.background = hex;
+
+    const profileAvatar = document.getElementById('profileAvatar');
+    if (profileAvatar) profileAvatar.style.background = hex;
+  }
+})();

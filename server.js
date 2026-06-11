@@ -199,7 +199,7 @@ function broadcastRanking() {
 app.get('/api/health', (_req, res) => {
   const { total } = countUsers.get();
   res.json({ ok: true, userCount: total, maxUsers: MAX_USERS, slots: MAX_USERS - total });
-});
+}); 
 
 app.post('/api/results', (req, res) => {
   try {

@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="digita.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 </head>
 <body>
 
@@ -18,7 +19,7 @@
 <video id="bgVideoLight" autoplay muted loop playsinline>
   <source src="https://static.videezy.com/system/resources/previews/000/018/974/original/grey-plate.mp4" type="video/mp4">
 </video>
-</main>
+
   <!-- ═══════════ TELA DE BOAS-VINDAS ═══════════ -->
   <div id="welcomeScreen" class="welcome-screen">
     <div class="welcome-backdrop"></div>
@@ -60,58 +61,67 @@
 
   <div class="blob-mid"></div>
 
-  <header>
-    <div class="logo-wrap">
-  <a href="https://unisagrado.edu.br/" target="_blank" rel="noopener noreferrer">
-    <img src="imagens/topo_60f18c0fd3099.png" alt="UNISAGRADO" class="logo-img" />
-  </a>
-  <div class="logo-divider"></div>
-  <div class="logo-app">
-    <span class="logo-app-name">DIGITA</span>
-    <span class="logo-app-sub">Teste de Digitação</span>
-  </div>
-</div>
-     <nav class="header-nav">
-  <button class="nav-link" data-page="ranking">Ranking</button>
-  <button class="nav-link active" data-page="home">Início</button>
-  <button class="nav-link" data-page="dicas">Dicas</button>
-  <button class="nav-link" data-page="sobre">Sobre</button>
-  <button class="nav-link" data-page="modo">Modos</button>
-</nav>
+ <header>
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <a href="https://unisagrado.edu.br/" target="_blank" rel="noopener noreferrer">
+      <img src="imagens/topo_60f18c0fd3099.png" alt="UNISAGRADO" class="logo-img" />
+    </a>
+    <div class="logo-divider"></div>
+    <div class="logo-app">
+      <span class="logo-app-name">DIGITA</span>
+      <span class="logo-app-sub">Teste de Digitação</span>
     </div>
-<div class="mode-group">
-  <div class="mode-select">
-    <select id="paraSelect">
-      <option value="inf">Parágrafos infinitos</option>
-      <option value="1">1 Parágrafo</option>
-      <option value="3">3 Parágrafos</option>
-      <option value="5">5 Parágrafos</option>
-    </select>
   </div>
-</div>
+
+  <!-- Nav -->
+  <nav class="header-nav">
+    <button class="nav-link" data-page="ranking">Ranking</button>
+    <button class="nav-link active" data-page="home">Início</button>
+    <button class="nav-link" data-page="dicas">Dicas</button>
+    <button class="nav-link" data-page="sobre">Sobre</button>
+    <button class="nav-link" data-page="modo">Modos</button>
+  </nav>
+
+  <!-- Controles direita -->
+  <div class="header-right">
+    <div class="mode-group">
+      <div class="mode-select">
+        <select id="paraSelect">
+          <option value="inf">Parágrafos infinitos</option>
+          <option value="1">1 Parágrafo</option>
+          <option value="3">3 Parágrafos</option>
+          <option value="5">5 Parágrafos</option>
+        </select>
+      </div>
+    </div>
+
     <div class="mode-select">
-  <select id="modeSelect">
-    <option value="15">15s</option>
-    <option value="30">30s</option>
-    <option value="60">1min</option>
-    <option value="900">15min</option>
-    <option value="1200">20min</option>
-    <option value="1800">30min</option>
-    <option value="custom">Sem Tempo</option>
-  </select>
-</div>
-      
-      <<button id="themeToggle" title="Alternar tema">
-  <img src="imagens/BotoesdeTema/TemaClaro.png" alt="Alternar tema" />
-</button>
-      <button id="soundToggle" title="Som">
-  <img src="imagens/volume1.png" id="soundIcon" />
-<button class="header-user" id="headerUser" title="Ver perfil" onclick="openProfile()">
-        <div class="header-user-avatar" id="headerUserAvatar">?</div>
-        <span id="headerUserName"></span>
-      </button>
+      <select id="modeSelect">
+        <option value="15">15s</option>
+        <option value="30">30s</option>
+        <option value="60">1min</option>
+        <option value="900">15min</option>
+        <option value="1200">20min</option>
+        <option value="1800">30min</option>
+        <option value="custom">Sem Tempo</option>
+      </select>
     </div>
-  </header>
+
+    <button id="themeToggle" title="Alternar tema">
+      <img src="imagens/BotoesdeTema/TemaClaro.png" alt="Alternar tema" />
+    </button>
+
+    <button id="soundToggle" title="Som">
+      <img src="imagens/volume1.png" id="soundIcon" />
+    </button>
+
+    <button class="header-user" id="headerUser" title="Ver perfil" onclick="openProfile()">
+      <div class="header-user-avatar" id="headerUserAvatar">?</div>
+      <span id="headerUserName"></span>
+    </button>
+  </div>
+</header>
   
 
   <!-- ═══════════ PÁGINA: INÍCIO ═══════════ -->
@@ -150,6 +160,9 @@
     </div>
 
     <div class="controls">
+      <span class="theme-indicator" id="themeIndicator" title="Tema atual — clique para mudar">
+  <span id="themeIndicatorLabel">⚙️ Tecnologia</span>
+</span>
       <button id="restartBtn" class="btn-restart" title="Reiniciar (Tab)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
@@ -273,16 +286,45 @@
   <div class="page-header">
     <span class="page-tag">Configuração</span>
     <h1>Modos de Jogo</h1>
-    <p class="page-subtitle">Escolha como você quer treinar. Cada modo desafia uma habilidade diferente.</p>
+    <p class="page-subtitle">Escolha o tema de texto e o modo de tempo. Cada combinação cria um treino diferente.</p>
+  </div>
+  
+
+  <!-- ── Seletor de Tema ── -->
+  <p class="modos-section-label">Tema de texto</p>
+  <div class="theme-strip" id="themeStrip">
+    <button class="theme-chip active" data-theme="tech"    onclick="selectTextTheme(this,'tech')">
+      <i class="ti ti-cpu"></i> Tecnologia
+    </button>
+    <button class="theme-chip" data-theme="science" onclick="selectTextTheme(this,'science')">
+      <i class="ti ti-flask"></i> Ciência
+    </button>
+    <button class="theme-chip" data-theme="lit"     onclick="selectTextTheme(this,'lit')">
+      <i class="ti ti-book"></i> Literatura
+    </button>
+    <button class="theme-chip" data-theme="history" onclick="selectTextTheme(this,'history')">
+      <i class="ti ti-building-arch"></i> História
+    </button>
+    <button class="theme-chip" data-theme="numbers" onclick="selectTextTheme(this,'numbers')">
+  <i class="ti ti-123"></i> Números
+</button>
+    <button class="theme-chip" data-theme="random"  onclick="selectTextTheme(this,'random')">
+      <i class="ti ti-dice-3"></i> Aleatório
+    </button>
   </div>
 
+  <!-- ── Separador ── -->
+  <div class="modos-divider"></div>
+
+  <!-- ── Cards de Tempo ── -->
+  <p class="modos-section-label">Modo de tempo</p>
   <div class="modos-grid">
 
     <div class="modo-card" data-mode-val="15" data-mode-type="time">
       <div class="modo-card-icon">⚡</div>
       <h3>Sprint</h3>
       <span class="modo-badge">15 segundos</span>
-      <p>Teste explosivo de velocidade. Esqueça a precisão, vá o mais rápido possível no menor tempo.</p>
+      <p>Teste explosivo de velocidade. Vá o mais rápido possível no menor tempo.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
@@ -290,7 +332,7 @@
       <div class="modo-card-icon">🔥</div>
       <h3>Rápido</h3>
       <span class="modo-badge">30 segundos</span>
-      <p>Equilíbrio entre velocidade e controle. Ótimo para treinos diários rápidos e consistentes.</p>
+      <p>Equilíbrio entre velocidade e controle. Ótimo para treinos diários rápidos.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
@@ -298,7 +340,7 @@
       <div class="modo-card-icon">🎯</div>
       <h3>Clássico</h3>
       <span class="modo-badge">1 minuto</span>
-      <p>O modo padrão da maioria dos testes. Tempo suficiente para medir WPM com precisão real.</p>
+      <p>O modo padrão da maioria dos testes. Tempo suficiente para medir WPM real.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
@@ -306,7 +348,7 @@
       <div class="modo-card-icon">💪</div>
       <h3>Resistência</h3>
       <span class="modo-badge">15 minutos</span>
-      <p>Para quem quer testar fôlego e consistência. Veja se sua velocidade cai com o cansaço.</p>
+      <p>Teste de fôlego e consistência. Veja se a velocidade cai com o cansaço.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
@@ -314,15 +356,7 @@
       <div class="modo-card-icon">🏋️</div>
       <h3>Maratona</h3>
       <span class="modo-badge">30 minutos</span>
-      <p>O desafio máximo de tempo. Mantém o ritmo, a postura e a concentração por meia hora.</p>
-      <button class="modo-select-btn btn-restart">Selecionar</button>
-    </div>
-
-   <div class="modo-card" data-mode-val="complete" data-mode-type="special">
-      <div class="modo-card-icon">📖</div>
-      <h3>Texto Completo</h3>
-      <span class="modo-badge modo-badge--novo">Novo</span>
-      <p>Digite um texto inteiro do início ao fim. O cronômetro conta seu tempo — sem pressão, só precisão.</p>
+      <p>Desafio máximo de tempo. Mantenha ritmo, postura e foco por meia hora.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
@@ -330,10 +364,23 @@
       <div class="modo-card-icon">∞</div>
       <h3>Sem Tempo</h3>
       <span class="modo-badge">Livre</span>
-      <p>Sem cronômetro, sem pressão. Foque em construir memória muscular e acertar cada letra com calma.</p>
+      <p>Sem cronômetro. Foque em construir memória muscular com calma total.</p>
       <button class="modo-select-btn btn-restart">Selecionar</button>
     </div>
 
+  </div>
+
+  <!-- ── Barra de resumo ── -->
+  <div class="modos-summary-bar" id="modosSummaryBar">
+    <span class="modos-summary-item">
+      <span class="modos-summary-label">Modo</span>
+      <span class="modos-summary-val" id="summaryMode">—</span>
+    </span>
+    <span class="modos-summary-sep"></span>
+    <span class="modos-summary-item">
+      <span class="modos-summary-label">Tema</span>
+      <span class="modos-summary-val" id="summaryTheme">Tecnologia</span>
+    </span>
   </div>
 </main>
   <!-- ═══════════ PÁGINA: SOBRE ═══════════ -->
@@ -349,7 +396,7 @@
         <div class="sobre-block-icon">⌨️</div>
         <div>
           <h2>O que é o projeto Digita?</h2>
-          <p>O projeto Digita é <strong>gratuito</strong> e foi criado com o objetivo de proporcionar um ambiente agradável, simples e intuitivo para a prática da digitação. Um lugar onde todos podem facilmente e rapidamente testar sua velocidade de digitação.</p>
+          <p>A plataforma Digita é <strong>gratuito</strong> e foi criada com o objetivo de proporcionar um ambiente agradável, simples e intuitivo para a prática da digitação. Um lugar onde todos podem facilmente e rapidamente testar sua velocidade de digitação.</p>
         </div>
       </div>
 
@@ -363,9 +410,31 @@
           <p>Mas com certeza existem pessoas que gostariam de aprender a digitar corretamente de forma eficaz e precisa. Pois hoje em dia, a digitalização está cada vez mais presente em nossa vida cotidiana seja para trabalhar, estudar, jogar e até mesmo para outros propósitos. Por isso é importante ter uma plataforma que facilite o aprendizado e a prática. Ao longo do tempo, espero que ela possa ajudar muitas pessoas a melhorar suas habilidades de digitação.</p>
         </div>
       </div>
+<div class="sobre-divider"></div>
+<div class="sobre-block">
+  <div class="sobre-block-icon">🏆</div>
+  <div>
+    <h2>Ranking</h2>
+    <p>O sistema de ranking organiza os usuários com base no desempenho obtido durante os testes de digitação. A classificação considera principalmente a velocidade (WPM), aliada à precisão e ao número de erros, garantindo uma avaliação equilibrada entre rapidez e qualidade.</p>
+  </div>
+</div>
 
+<div class="sobre-divider"></div>
+
+<div class="sobre-block">
+  <div class="sobre-block-icon">📊</div>
+  <div>
+          <h2>Métricas e Estatísticas</h2>
+          <p>Para garantir um acompanhamento eficiente da evolução dos usuários, a Plataforma Digita utiliza métricas importantes que permitem analisar o desempenho durante a prática de digitação.</p>
+          <p><strong>WPM (Words Per Minute):</strong> Esta métrica indica a velocidade de digitação, ou seja, quantas palavras o usuário consegue digitar por minuto. É uma medida fundamental para avaliar o progresso e a fluidez na digitação.</p>
+          <p><strong>Precisão:</strong> A precisão é calculada com base no número de erros cometidos em relação ao total de caracteres digitados. Ela é expressa em porcentagem e é crucial para garantir que a velocidade não comprometa a qualidade da digitação.</p>
+          <p><strong>Tempo de Digitação:</strong> O tempo total gasto para completar o exercício de digitação é registrado para análise do desempenho.</p>
+          <p><strong>Caracteres Digitados:</strong> O número total de caracteres digitados durante o exercício é registrado para análise do desempenho.</p>
+          <p><strong>Erros Cometidos:</strong> O número total de erros cometidos durante o exercício é registrado para análise do desempenho.</p>
+          <p><strong>Tempo de Repouso:</strong> O tempo total gasto em pausas durante o exercício é registrado para análise do desempenho.</p>
+        </div>
+      </div>
       <div class="sobre-divider"></div>
-
       <div class="sobre-block">
         <div class="sobre-block-icon">🚀</div>
         <div>
@@ -374,7 +443,6 @@
         </div>
       </div>
       <div class="sobre-divider"></div>
-
       <div class="sobre-block">
         <div class="sobre-block-icon">🎓</div>
         <div>
@@ -384,7 +452,7 @@
           <p><strong>Professores responsáveis:</strong> Prof. Dr. Elvio Gilberto da Silva; Prof. Me. Luis Felipe Grael 
 Tinós e Professora Esp. Camila Pellizon Floret<br>
 </p>
-          <p><strong>Integrantes do grupo:</strong> Daniel Augusto Thomasi; Henrique Ribeiro Bonafim e Lucas de Oliveira Nascimento</p>
+          <p><strong>Integrantes do grupo:</strong> Daniel Augusto Thomasi</p>
 </p>
          
         </div>
@@ -397,6 +465,7 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
           Começar a Digitar
+        </button>
         </button>
       </div>
     </div>
@@ -512,7 +581,24 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
     </button>
   </div>
 </div>
+<div class="profile-divider"></div>
+<div class="profile-glow-section">
+  <p class="profile-section-title">Personalização de Cores</p>
 
+  <p class="profile-glow-sublabel">Cor do Brilho</p>
+  <div class="profile-glow-wrap">
+    <div class="profile-glow-preview" id="glowPreview"></div>
+    <label class="profile-glow-label" for="glowColorPicker">Clique para escolher</label>
+    <input type="color" id="glowColorPicker" value="#01f30e" />
+  </div>
+
+  <p class="profile-glow-sublabel" style="margin-top:14px;">Cor do Fundo do Avatar</p>
+  <div class="profile-glow-wrap">
+    <div class="profile-bg-preview" id="bgPreview"></div>
+    <label class="profile-glow-label" for="bgColorPicker">Clique para escolher</label>
+    <input type="color" id="bgColorPicker" value="#1a1212" />
+  </div>
+</div>
       <!-- ── Stats ── -->
       <div class="profile-divider"></div>
       <div class="profile-stats-section">
@@ -624,16 +710,6 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
     </div>
   </div>
 <div class="rank-filter-row">
-  <span class="rank-filter-label">Filtrar por modo:</span>
-  <div class="rank-filter-btns" id="rankModeFilter">
-    <button class="rank-filter-btn active" data-filter="all">Todos</button>
-    <button class="rank-filter-btn" data-filter="15s">⚡ Sprint</button>
-    <button class="rank-filter-btn" data-filter="30s">🔥 Rápido</button>
-    <button class="rank-filter-btn" data-filter="60s">🎯 Clássico</button>
-    <button class="rank-filter-btn" data-filter="900s">💪 Resistência</button>
-    <button class="rank-filter-btn" data-filter="complete">📖 Texto Completo</button>
-    <button class="rank-filter-btn" data-filter="custom">∞ Sem Tempo</button>
-  </div>
 </div>
   <!-- Abas internas -->
   <div class="rank-filter-row">
@@ -644,11 +720,10 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
     <button class="rank-filter-btn" data-filter="30s">🔥 Rápido</button>
     <button class="rank-filter-btn" data-filter="60s">🎯 Clássico</button>
     <button class="rank-filter-btn" data-filter="900s">💪 Resistência</button>
-    <button class="rank-filter-btn" data-filter="complete">📖 Texto Completo</button>
+    <button class="rank-filter-btn" data-filter="numbers">🔢 Números</button>
     <button class="rank-filter-btn" data-filter="custom">∞ Sem Tempo</button>
   </div>
 </div>
-
 <div class="rank-tabs">
   <button class="rank-tab active" data-tab="alltime">🏆 Geral</button>
   <button class="rank-tab" data-tab="today">📅 Hoje</button>
@@ -698,14 +773,13 @@ Tinós e Professora Esp. Camila Pellizon Floret<br>
 
   <!-- Tabela: Recentes -->
   <div class="rank-panel" id="rankPanelRecent">
-    <div class="rank-feed" id="rankFeed">
-      <div class="rank-empty">Carregando...</div>
-    </div>
+  <div class="rank-feed" id="rankFeed">
+    <div class="rank-empty">Carregando...</div>
   </div>
-
-  
-  <div class="toast" id="toast"></div>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-  <script src="digita.js"></script>
+</div>
+</main>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="digita.js"></script>
 </body>
 </html>
